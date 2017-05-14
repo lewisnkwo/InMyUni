@@ -1,0 +1,60 @@
+
+      <ion-modal-view style="background-color: transparent">
+        <ion-content class="padding">
+
+<div class="list card explorecard item-card-logo">
+<button class="button button-clear button-primary" ng-class="platform == 'android' ? 'ion-android-close' : 'ion-ios-close-empty'" style="font-size: 34px; float: right;" ng-click="modal.hide(); "></button>
+                    <button class="button button-clear button-primary" ng-class="platform == 'android' ? 'ion-help' : 'ion-ios-help-empty'" style="font-size: 34px; float: right;" ng-controller="ItemCardHelpCtrl" ng-click="showitemcardhelp()"></button>
+<!--          <button class="button button-clear button-primary ion-gear-a" style="font-size: 34px; float: right;" ng-controller="PopCardSettingsCtrl" ng-click="popover.show($event)"></button>
+-->
+  <div class="item item-avatar">
+    <img ng-src="{{ photos[defaultindex].author_image == '' ? 'img/default_avatar_male.jpg' : photos[defaultindex].author_image[0] }}" err-src="img/noimage.png" />
+    <h2><a class="nounderline" ui-sref="itemsingle({ postID: photos[defaultindex].id })" ng-click="modal.hide()">{{photos[defaultindex].title}}</a></h2>
+    <p><i class="icon ion-person"></i> <a class="nounderline" style="font-size:24px; padding: 10px 0px;" ui-sref="profile({ profileID: photos[defaultindex].author.id })" ng-click="modal.hide()">Sold by: {{photos[defaultindex].author.name}}</a><br />
+    <i class="icon ion-university"></i> {{photos[defaultindex].taxonomy_product_cat[0].title}}
+    </p>
+  </div>
+
+  <div class="item item-body card-changepadding">
+    <img class="full-image" ng-src="{{photos[defaultindex].imagefull}}" err-src="img/noimage.png">
+    
+<!--<button class="button button-small button-energized cardposition noborder" ui-sref="itemsingle({ postID: photos[defaultindex].id })" ng-click="modal.hide()" ng-hide="photos[defaultindex].item_status == 'sold'">
+ <i class="icon ion-hammer"></i> Offer A Price
+</button>-->
+<button class="button button-small button-calm cardposition2" ui-sref="profile({ profileID: photos[defaultindex].author.id })" ng-click="modal.hide()" ng-hide="photos[defaultindex].item_status == 'sold'">
+ <i class="icon ion-more"></i> View User Items
+</button>
+<button class="button button-small button-calm cardposition" ui-sref="profile({ profileID: photos[defaultindex].author.id })" ng-click="modal.hide()" ng-hide="photos[defaultindex].item_status == 'available'">
+ <i class="icon ion-more"></i> View User Items
+</button>
+
+<div class="cardposition-price" ng-show="photos[defaultindex].item_status == 'available'">
+£10.00
+</div>
+<div class="cardposition-status" ng-show="photos[defaultindex].item_status == 'sold'">
+<i class="icon ion-beer"></i> sold
+</div>
+<a class="button button-clear button-large button-primary ion-eye cardposition3" ng-click="modal.hide()" ui-sref="itemsingle({ postID: photos[defaultindex].id })" ng-hide="photos[defaultindex].item_status == 'sold'"></a>
+  </div>
+
+  <div class="item tabs tabs-secondary tabs-icon-left">
+  
+  <a class="tab-item likeicon" ng-click="like()" ng-show="likebuttons.likebutton == true"> <i class="icon" ng-class="platform == 'android' ? 'ion-android-favorite-outline' : 'ion-ios-heart-outline'"></i> </a> 
+  <a class="tab-item likeicon" ng-click="unlike()" ng-show="likebuttons.likedbutton == true"> <i class="icon" ng-class="platform == 'android' ? 'ion-android-favorite' : 'ion-ios-heart'"></i> </a>
+  
+    <a class="tab-item buyicon" ui-sref="itemsingle({ postID: photos[defaultindex].id })" ng-click="modal.hide()" ng-hide="photos[defaultindex].item_status == 'sold'">
+      <i class="icon" ng-class="platform == 'android' ? 'ion-android-cart' : 'ion-ios-cart'"></i>
+      Buy
+    </a>
+    <a class="tab-item buyicon" ui-sref="itemsingle({ postID: photos[defaultindex].id })" ng-click="modal.hide()" ng-hide="photos[defaultindex].item_status == 'available'">
+      <i class="icon ion-eye"></i>
+      View
+    </a>
+<!--    <a class="tab-item shareicon" href="" ng-controller="ShareGeneralCtrl" ng-click="popover.show($event)">
+      <i class="icon ion-share"></i>
+    </a>-->
+  </div>
+
+</div>
+        </ion-content>
+      </ion-modal-view>

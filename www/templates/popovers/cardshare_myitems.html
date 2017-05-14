@@ -1,0 +1,26 @@
+<ion-popover-view>
+  <ion-content style="height: auto">
+    <div class="list" ng-if="platform == 'android'">
+      <a class="item" target="_blank" ng-click="shareViaTwitter(Share.message, Share.image, Share.link)">
+        <i class="icon ion-social-twitter"></i> Tweet this Item
+      </a>         
+      <a class="item" href="" target="_blank" ng-click="shareViaFacebook(Share.image, Share.link)">
+        <i class="icon ion-social-facebook" style="padding-right: 7px;"></i> Share on Facebook
+      </a>
+      <a class="item" href="" target="_blank" ng-click="shareViaWhatsApp(null, Share.image, Share.link)">
+        <i class="icon ion-social-whatsapp"></i> WhatsApp this Item
+      </a>
+      <a class="item" href="" target="_blank" ng-click="shareViaEmail(Share.message, Share.image, Share.link)">
+        <i class="icon" ng-class="platform == 'android' ? 'ion-android-mail' : 'ion-ios-email-outline'"></i> Email this Item
+      </a>
+      <a class="item" href="" target="_blank" ng-click="shareViaAny(Share.message, Share.image, Share.link)">
+        <i class="icon" ng-class="platform == 'android' ? 'ion-android-share' : 'ion-ios-redo-outline'"></i> Share Any
+      </a>
+    </div>
+    <div class="list" ng-if="platform == 'ios'">
+      <a class="item" href="" target="_blank" ng-click="shareViaAny(Share.message, Share.image, Share.link)">
+        <i class="icon" ng-class="platform == 'android' ? 'ion-android-share' : 'ion-ios-redo-outline'"></i> Share Any
+      </a>
+    </div>
+  </ion-content>
+</ion-popover-view>

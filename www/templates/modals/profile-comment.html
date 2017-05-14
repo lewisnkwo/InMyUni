@@ -1,0 +1,30 @@
+
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-energized">
+          <h1 class="title"><i class="icon ion-edit"></i> Ask about {{authorposts.author.name}}'s items</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+  <label class="item item-input">
+    <textarea class="modaltextarea" placeholder="Enter your message..." ng-model="comment.text"></textarea>
+  </label>
+    <label class="item item-input item-select">
+        <div class="input-label">
+          Select item:
+        </div>
+		<select ng-model="selectedItem.id" ng-options="item.id as item.title for item in authorposts.posts" >
+        </select>
+      </label>
+      
+<!--    <label class="item item-input item-select">
+        <div class="input-label">
+          Visibility
+        </div>
+		<select ng-model="type.typeofcomment" ng-options="item.type as item.name for item in commenttype" >
+        </select>
+      </label>-->
+            <button class="button icon-left ion-paper-airplane button-block button-energized noborder" ng-click="postcomment(); modal.hide()"> Submit Comment</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>

@@ -1,0 +1,44 @@
+<!--
+      <ion-view title="Explore Items" hide-nav-bar="false">
+      
+
+  <ion-side-menus>
+
+
+    <ion-side-menu-content>
+   
+
+
+
+      <ion-header-bar class="bar-light">
+      	<button class="button button-icon icon ion-navicon-round" ng-click="toggleLeftSideMenu()"></button>
+        <h1 class="title">Sell A New Item</h1>
+     	<button class="button button-icon icon ion-chevron-left" ng-click="moveback()">Back</button>
+      </ion-header-bar> 
+        <ion-content padding="false" ng-controller="PhotosCtrl" header-shrink>
+        <div style="height: 50px"></div>
+        <h1 style="text-align:center">Grid View</h1>
+        
+   <photo-grid photos="photos"></photo-grid>
+         
+         
+                </ion-content>
+    
+    <script id="photo-grid.html" type="text/ng-template">
+      <div class="photo-list" id="photo-grid">
+        <div class="box photo-item" ng-repeat="photo in photos | orderBy:order:reverse"><img ng-src="{{ photo.photo | thumb:300 }}" class="box-content" /></div>
+      </div>
+    </script>     
+      
+    </ion-side-menu-content>
+
+
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+           <div ng-include="'templates/tabs.html'"></div>
+      </ion-view>
+
+-->

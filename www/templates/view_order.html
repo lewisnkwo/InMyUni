@@ -1,0 +1,127 @@
+<ion-view ng-controller="OrderCtrl" title="Order #{{single_order.order.id}}" hide-nav-bar="false">
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    
+    <ion-side-menu-content>  
+
+     <ion-content class="tabspadding">  
+     
+ <ion-refresher pulling-text="Pull to refresh order" pulling-icon="ion-arrow-down-c" on-refresh="RefreshOrder()">
+      </ion-refresher> 
+ 
+ 	<div ng-hide="hidespinner == true">
+    <ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+    </div>   
+    
+	<p class="helptext"> To change the status of an order, use the drop-down below.</p> 
+    
+    <div class="item item-divider light-divider bolden">
+      <i class="icon ion-information-circled"></i> Order Information
+    </div> 
+    
+        <a class="button button-clear button-energized button-primary ion-eye" style="font-size: 20px; margin-left: 10px;" ui-sref="itemsingle({ postID: single_order.order.line_items[0].product_id })"> View Order Item</a>
+        <br/>
+        
+         <a class="button button-clear button-energized button-primary ion-eye" style="font-size: 20px; margin-left: 10px;" ui-sref="profile({ profileID: single_order.order.customer.id })"> View buyer profile</a> 
+        
+        <a class="button button-royal button-primary noborder" ng-class="platform == 'android' ? 'ion-android-mail' : 'ion-ios-compose'" ng-if="single_order.order.status != 'completed'" style="font-size: 20px; margin-left: 10px;" ng-click="scrolldown()"> Message {{single_order.order.customer.first_name}}</a> 
+       
+    <div class="row" style="border-top: 1px dashed #ccc; margin-top: 10px">
+    <p class="spacing order-desc"><i class="icon ion-person"></i> <span class="bolden">{{single_order.order.customer.first_name}}</span> ordered '<span class="bolden">{{single_order.order.line_items[0].name}}</span>' for <span class="bolden">£{{single_order.order.total}}</span></p>
+    <p class="spacing order-desc"><i class="icon ion-clock"></i> Order was created on '<span class="bolden">{{single_order.order.created_at | date:'EEEE dd/MM/yyyy @ h:mma' }}</span>'</p>
+    </div> 
+ 
+<!--     <div class="row" ng-hide="single_order.order.status == 'completed'">
+    <p class="spacing order-desc"><i class="icon ion-unlocked"></i> Order will expire on '<span class="bolden">{{single_order.order.created_at | date:'EEEE dd/MM/yyyy @ h:mma' }}</span>'</p>
+    </div> -->
+    
+    <div class="row" style="border-top: 1px dashed #ccc" ng-if="single_order.order.status == 'completed'">
+    <p class="spacing order-desc-completed"><i class="icon" ng-class="platform == 'android' ? 'ion-android-done-all' : 'ion-ios-checkmark-outline'" style="color: #72cc98"></i> Order was completed on '<span class="bolden">{{single_order.order.completed_at | date:'EEEE dd/MM/yyyy @ h:mma Z' }}</span>'</p>
+    </div>    
+    
+   	<h3 class="spacing">Current Status:</h3>
+    
+    <div ng-switch="single_order.order.status">
+        <div ng-switch-when="on-hold" class="order-pending"><i class="icon" ng-class="platform == 'android' ? 'ion-android-more-horizontal' : 'ion-ios-circle-outline'"></i> Pending Payment</div>
+        <div ng-switch-when="completed" class="order-completed"><i class="icon" ng-class="platform == 'android' ? 'ion-android-done-all' : 'ion-ios-checkmark-outline'"></i> Completed</div>
+        <div ng-switch-when="cancelled" class="order-cancelled"><i class="icon" ng-class="platform == 'android' ? 'ion-android-cancel' : 'ion-ios-close-outline'"></i> Cancelled</div>
+    </div>
+
+    <label class="item item-input item-select" ng-if="single_order.order.status !== 'completed'">
+    	<div class="input-label">
+    		<i class="icon ion-cube placeholder-icon"></i> Change Status
+    	</div>
+    <select ng-model="selectedItem.id" ng-options="item.id as item.name for item in statuses" ng-disabled="selectedItem.id == 'cancelled' || selectedItem.id == 'completed'" ng-change="selectedItem.id == 'cancelled' ? cancelorder() : completeorder()" >
+    </select>
+    </label>
+    
+   	<h3 class="spacing" ng-hide="single_order.order.status == 'completed'"><i class="icon ion-information-circled"></i> What happens next?</h3>
+    
+<ion-slide-box ng-hide="single_order.order.status == 'completed'" auto-play="true" does-continue="true" show-pager="false" slide-interval="5000">
+  <ion-slide>
+    <div class="saletype-local bolden" style="font-size: 20px; padding: 20px; margin: 20px; border-radius: 6px">1. <i class="icon ion-at"></i> Arrange to meet up local to your uni (use the button above to send the buyer messages)</div>
+  </ion-slide>
+  <ion-slide>
+    <div class="saletype-local bolden" style="font-size: 20px; padding: 20px; margin: 20px; border-radius: 6px">2. <i class="icon ion-star"></i> Accept the payment in cash only. Thank the buyer and remember to ask for a rating on your profile.</div>
+  </ion-slide>
+  <ion-slide>
+    <div class="saletype-local bolden" style="font-size: 20px; padding: 20px; margin: 20px; border-radius: 6px">3. <i class="icon ion-beer"></i> Complete the sale on Inmyuni by selecting 'Mark As Paid' above. This will update your profile and enable the buyer to rate you. <br><span style="font-size:12px">(Side note: Use your earnings responsibly!)</span></div>
+  </ion-slide>
+</ion-slide-box>
+    
+<div class="whathappens-local" ng-hide="single_order.order.status == 'completed'" >    
+    
+    <h5 class="spacing" style="padding: 15px !important; color: #666" ng-if="single_order.order.status !== 'completed'"><i class="icon ion-alert-circled"></i> Important: Once you select 'Mark As Paid' (when you've received payment); or 'Cancel Order' (when a user dosen't want the item anymore), the order will become <span style="text-decoration:underline">uneditable</span>. By selecting 'Cancel Order', the item will return to being available for purchase.</h5>
+ 
+<!--     <h5 class="spacing" style="padding: 15px !important; color: #666" ng-if="single_order.order.status !== 'completed'"><i class="icon ion-lightbulb"></i> Note: The item will automatically be made available again for purchase; if the order is not completed after 7 days of the order creation date.</h5>-->
+    
+</div>    
+    
+	<h3 class="spacing">Delivery Type:</h3>
+              <div class="myitems-meta spacing" style="margin-bottom: 20px;">
+                <div class="saletype-local" ng-if="single_order.order.shipping_lines[0].method_title === 'Local Pickup'"> <i class="icon ion-android-people"></i> meet up</div>
+                <div class="saletype-national" ng-if="single_order.order.shipping_lines[0].method_title !== 'Local Pickup'"> <i class="icon ion-android-people"></i> posted to you</div>
+              </div>    
+    
+    <div class="item item-divider light-divider">
+      <i class="icon ion-android-list"></i> Order Messages
+    </div>
+    
+<div class="list">
+    
+    <div ng-repeat="x in single_order_notes.order_notes.slice().reverse()" ng-class-odd="x.customer_note == true ? 'order-note-odd' : 'order-note-even'" ng-class-even="x.customer_note == false ? 'order-note-even' : 'order-note-odd'" item="item">
+    <h4>{{x.note}}</h4>
+<!--    <div class="order-system-note" ng-show="x.customer_note == false"> <i class="icon ion-gear-a"></i> seller message</div>-->
+    <div class="order-buyer-note" ng-show="x.customer_note == true"> <i class="icon ion-person"></i> {{single_order.order.customer.first_name}}</div>
+    <p style="margin-top: 5px; float: right; color: #666" class="clear"><i class="icon ion-clock"></i> {{x.created_at | date:'EEEE dd/MM/yyyy @ h:mma'}}</p>
+    </div>
+    
+</div>
+
+<p class="helptext clear">Tip: Tap the top-bar to scroll to the top quicker.</p> 
+
+  <div class="item item-input-inset clear" style="border-top: 1px dashed #ccc" ng-hide="single_order.order.status == 'completed' || single_order.order.status == 'cancelled'">
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="Type a message..." style="width: 90%" ng-model="message.value">
+    </label>
+    <button class="button button-royal noborder" ng-class="platform == 'android' ? 'ion-android-send' : 'ion-ios-paperplane'" ng-click="send_buyer_message()">
+    </button>
+  </div>
+ 
+<p ng-show="single_order.order.status == 'completed' || single_order.order.status == 'cancelled'" class="bolden" style="padding: 10px;">Messages closed.</p> 
+
+     </ion-content>
+      
+</ion-side-menu-content>
+        <!-- Center content end -->  
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</ion-view>

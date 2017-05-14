@@ -1,0 +1,44 @@
+
+      <ion-view title="Legal Stuff / About" hide-nav-bar="false">
+      
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+   
+ 
+        <ion-content class="tabspadding">
+ 
+<ion-slide-box on-slide-changed="slideHasChanged($index)">
+  <ion-slide ng-controller="SlidesAboutCtrl" style="padding: 20px">
+<a class="button ion-information button-dark button-clear button-block" ng-click="nextSlide()"> Swipe right or tap for <strong>Privacy</strong></a>
+<h3 ng-controller="TermsCtrl" ng-click="modal.show()"><i class="icon" ng-class="platform == 'android' ? 'ion-android-open' : 'ion-ios-plus-outline'"></i> Tap for Terms Of Use</h3>
+  </ion-slide>
+  <ion-slide ng-controller="SlidesAboutCtrl" style="padding: 20px">
+<a class="button ion-information button-dark button-clear button-block" ng-click="nextSlide()"> Swipe right or tap for <strong>About Inmyuni</strong></a>
+<h3 ng-controller="PrivacyCtrl" ng-click="modal.show()"><i class="icon" ng-class="platform == 'android' ? 'ion-android-open' : 'ion-ios-plus-outline'"></i> Tap for Privacy Policy</h3>
+  </ion-slide>
+  <ion-slide ng-controller="SlidesAboutCtrl" style="padding: 20px">
+<a class="button ion-information button-dark button-clear button-block" ng-click="firstSlide()"> Swipe left or tap for <strong>To go back</strong></a>
+<h2>About Inmyuni</h2>
+<p>Created by Lewis Nkwo. © 2015 INMYUNI LIMITED. All rights are reserved.</p>
+  </ion-slide>
+</ion-slide-box> <!-- ng-include the info -->
+
+        
+        </ion-content>
+        
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+    
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+      </ion-view>        

@@ -1,0 +1,214 @@
+
+      <ion-view title="{{itemcount == 0 ? 'Sell Your First Item' : 'Sell Your Item'}}" hide-nav-bar="false">   
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+ 
+<ion-content class="tabspadding" padding="true" ng-controller="CameraCtrl">
+
+<div ng-controller="BarcodeCtrl">
+
+<div ng-controller="NewProductCtrl">
+
+<div ng-controller="NewItemFormCtrl">
+
+<div ng-show="imgURI !== undefined" class="sellframe" animation="fade-in">
+			<img ng-src="{{imgURI}}" width="300px" height="300px" >
+</div>
+<div class="uploadsection" ng-show="showme" animation="fade-in">
+
+	<div class="sellframe" ng-show="imgURI === undefined">
+		<i class="icon" ng-class="platform == 'android' ? 'ion-ios-cloud-upload' : 'ion-upload'"></i>
+	</div>
+            <button class="button button-block button-calm icon-left noborder" ng-class="platform == 'android' ? 'ion-android-camera' : 'ion-ios-camera-outline'" ng-click="takePicture()" ng-hide="imgURI !== undefined">Take A Photo</button>
+
+			<div ng-controller="UploadCtrl">
+			<button class="button button-block button-energized icon-left ion-upload noborder" ng-click="uploadpic()" ng-show="imgURI !== undefined">Upload</button>
+			</div>
+            
+            <button class="button button-block button-balanced icon-left noborder" ng-class="platform == 'android' ? 'ion-android-camera' : 'ion-ios-camera-outline'" ng-click="takePicture()" ng-show="imgURI !== undefined">Don't like? Take another!</button>
+            
+            <button class="button button-block button-calm icon-left ion-images noborder" ng-click="selectPicture()">Or Choose from Gallery </button>
+
+<!--<div id="posttosocial" ng-show="imgURI !== undefined"> 
+
+<h3 style="text-align: center"><i class="icon ion-android-bulb"></i> Why not post this item...</h3>
+
+<div class="row">
+  <div class="col col-50">
+  
+  <li class="item item-toggle">
+     To <i class="icon ion-social-facebook" style="font-size: 24px"></i>
+     <label class="toggle toggle-positive">
+       <input type="checkbox">
+       <div class="track track-facebook">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li> 
+  
+  </div>
+  <div class="col col-50">
+  
+  <li class="item item-toggle">
+     To <i class="icon ion-social-twitter" style="font-size: 24px"></i>
+     <label class="toggle toggle-calm">
+       <input type="checkbox">
+       <div class="track track-twitter">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li> 
+  
+  </div>
+</div>
+</div>-->
+            
+</div> <!-- sellframe END -->
+   
+
+<div class="spacer1 spacericon" style="height: 80px; margin-bottom: 30px;" ng-hide="showme">
+<i class="icon ion-headphone"></i> <i class="icon ion-university"></i> <i class="icon ion-calculator"></i> <i class="icon ion-battery-half" style="padding: 0px 5px;"></i> <i class="icon ion-bag"></i>
+</div>     
+
+<div ng-hide="showme"><h3 class="selling-notice">Selling your items on Inmyuni is <strong>easy</strong>.</h3><br > Simply add a few details to your item. You can also add a photo and more details after you click on the <span style="color: #fc0"><i class="icon ion-pricetags"> </i>Sell It!</span> button.</div>  
+  <div ng-hide="showme">
+  <button class="button button-balanced icon-left ion-lightbulb noborder" style="margin-bottom: 10px; font-size:30px; padding:20px; margin-top: 10px;" ng-click="showAlert()">
+      What can I sell?
+    </button> 
+  </div>
+  
+<div class="list">
+
+<form name="newitemform" ng-submit="newitem()" novalidate>
+
+  <div class="item light-divider">
+  	<i class="icon ion-edit"></i> Main Details
+  </div> 
+  <div ng-hide="showme">
+  <button class="button button-block button-calm icon-left scan-button" ng-class="platform == 'android' ? 'ion-qr-scanner' : 'ion-ios-barcode-outline'" ng-click="scanBarcode()" ng-hide="imgURI !== undefined">Selling a book?<br /> Tap here to scan it</button> 
+<!--  <button class="button button-block button-energized icon-left ion-android-storage" ng-click="update()"  ng-hide="imgURI !== undefined">2. Update with Book Details</button>  -->
+  </div>  
+<div ng-show="bookcover !== undefined" class="bookcoverpreview" ng-controller="WhyAPhotoCtrl">	
+	<img ng-src="{{bookcover}}" height="auto" >
+	<h5>Book Cover Preview</h5>
+    <h6 ng-show="isbncode"> Book information search is<br/> Powered by <img src="img/google-logo.png" width="60px" height="20px" /> </h6>
+    <h6 class="smalllinks">(You'll still need to upload a photo of your book) <a ng-click="whyaphoto()"><i class="icon ion-arrow-expand" style="font-size: 18px !important; color: #000; text-decoration:underline"></i> Why?</a></h6>	
+</div>
+<div ng-hide="bookcover !== undefined || showme" class="bookcoverpreview">
+	<i class="icon" ng-class="platform == 'android' ? 'ion-android-image' : 'ion-ios-book'"></i>
+	<h5 class="scan-book-cover-text">Book Cover Preview Unavailable</h5>
+</div>
+
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-edit placeholder-icon"></i>Title</span> 
+    <input type="text" placeholder="Enter Item Title" name="itemtitle" ng-model="iteminfo.title" ng-minlength="2" ng-maxlength="150" ng-disabled="showme" ng-init="showme=false" required>
+  </label>
+
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-pricetag placeholder-icon"></i>Price (£)</span>
+    <input style="font-size: 20px" type="number" placeholder="Price: £1-£1000" name="itemprice" ng-model="iteminfo.price" min="1" max="1000" ng-disabled="showme" pattern="\d+(\.\d{2})?" ng-init="showme=false" required>
+  </label>
+  
+    <label class="item item-input item-select">
+    <div class="input-label">
+     <i class="icon ion-leaf placeholder-icon"></i> Condition
+    </div>
+    
+    <select name="itemcat" ng-model="iteminfo.condition" ng-disabled="showme" ng-init="showme=false" required>
+    <option value="">Select Item Condition</option>   
+	<option value="Used">Used - Opened, used before</option>
+	<option value="New">New - Unopened</option>
+    </select>
+  </label>
+  
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-compose placeholder-icon"></i>Description</span>
+    <textarea placeholder="Enter a few words about your item (minimum 10 characters)" name="itemdesc" ng-model="iteminfo.desc" ng-minlength="10" ng-maxlength="1000" ng-disabled="showme" ng-init="showme=false" required></textarea> 
+  </label>
+    
+    <label class="item item-input item-select">
+    <div class="input-label">
+     <i class="icon ion-university placeholder-icon"></i> My Uni
+    </div>
+    
+    <select ng-model="iteminfo.cat" name="uni" ng-options="uni.id as uni.name for uni in unilist.product_categories" ng-disabled="showme" ng-init="showme=false">
+        </select>
+  </label>
+<!--         <a class="button button-light button-small icon-left ion-help" style="margin: 10px 0px 10px 0px" ng-click="aadad()">
+          The process of selling on Inmyuni
+        </a>-->
+  <div class="item light-divider">
+   <i class="icon ion-person-stalker"></i> Delivery Type
+  </div>  
+  <li class="item item-checkbox">
+     <label class="checkbox">
+       <input type="checkbox" name="itemsaletype-local" ng-model="iteminfo.local" ng-disabled="showme" ng-init="showme=false" required>
+     </label>
+     I can meet up with the buyer
+  </li>
+  <li class="item item-checkbox">
+     <label class="checkbox">
+       <input type="checkbox" name="itemsaletype-national" ng-model="iteminfo.national" ng-disabled="showme" ng-init="showme=false">
+     </label>
+     I can post it to the buyer 
+  </li> 
+<!--  <div class="item-notice">
+   <i class="icon ion-alert"></i> A posting (outside of your uni) option will be available in the next update
+  </div> -->
+  
+  <div class="item-notice-light" ng-hide="showme">
+   <i class="icon ion-camera"></i> You will be able to add a photo to your item on the next step
+  </div> 
+  
+<div ng-show="isbncode !== undefined || authors !== undefined" animation="fade-in">
+  <div class="item item-divider">
+    Your Book's Details
+  </div>
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-edit placeholder-icon"></i>ISBN</span> 
+    <input type="text" placeholder="Enter ISBN (barcode no.)" name="itemisbn" ng-model="iteminfo.isbn" ng-maxlength="13" pattern="(?:(?=.{17}$)97[89][ -](?:[0-9]+[ -]){2}[0-9]+[ -][0-9]|97[89][0-9]{10}|(?=.{13}$)(?:[0-9]+[ -]){2}[0-9]+[ -][0-9Xx]|[0-9]{9}[0-9Xx])" ng-disabled="showme" ng-init="showme=false">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-person-stalker placeholder-icon"></i>Author(s)</span> 
+    <input type="text" placeholder="Enter Author(s); seperate by comma (optional)" name="itemauthors" ng-model="iteminfo.authors" ng-maxlength="300" ng-disabled="showme" ng-init="showme=false">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-printer placeholder-icon"></i>Publisher</span> 
+    <input type="text" placeholder="Publisher Name (optional)" name="itempublisher" ng-model="iteminfo.publisher" ng-maxlength="200" ng-disabled="showme" ng-init="showme=false">
+  </label>  
+</div> 
+<div ng-show="showme" class="spacer2" style="height: 30px;" animation="fade-in"></div>  
+<div ng-show="showme" animation="fade-in" style="margin-bottom: 20px;"><h3>To edit your items, tap the My Items icon.</h3></div>  
+<p ng-show="newitemform.uni.$error.required && newitemform.uni.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Please select your university</p>
+<div ng-hide="showme">
+<button type="submit" name="sellbutton" class="button button-block button-energized ion-pricetag noborder" ng-disabled="newitemform.$invalid" ng-click="showme=true"> Sell It!</button>
+
+</div>
+</form>
+
+</div> <!-- NewItemFormCtrl -->
+
+</div> <!-- NewProductCtrl -->
+
+</div>
+
+</div>           
+            
+</ion-content>
+        
+      
+</ion-side-menu-content>
+
+
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+
+</ion-side-menus>
+
+      </ion-view>
+

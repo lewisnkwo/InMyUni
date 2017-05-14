@@ -1,0 +1,86 @@
+
+      <ion-view title="Followers" hide-nav-bar="false">
+      
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+      
+     <ion-content ng-controller="FollowersCtrl" class="tabspadding" padding="true">
+     
+    <div ng-hide="hidespinner == true">
+    	<ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+    </div>     
+     
+        <ion-list>
+          <ion-item class="item-avatar" ng-repeat="x in followers.profile" ng-init="loading=[]; hiding=[]" ng-hide="x.username == null">
+        <img ng-src="{{x.avatar == null || x.avatar == '' ? 'img/default_avatar_male.jpg' : x.avatar }}" err-src="img/default_avatar_male.jpg">
+      <a class="nounderline" ui-sref="profile({ profileID: x.id })"><h2><span style="font-size: 26px; text-transform:lowercase">{{x.username}}</span> <!--<span style="font-size: 14px;">{{x.uni}}</span>--></h2></a>
+<!--      <p>{{x.bio}}</p>-->
+      
+              <div ng-switch="x.following" ng-if="x.id != currentusermeta.id">
+              
+              <div ng-switch-when="yes">
+
+				<button class="button button-small button-dark noborder cap-button" ng-init="loading[$index]=true" ng-show="loading[$index]">
+                Following
+                </button>
+              
+                <button class="button button-small button-calm noborder cap-button" ng-init="hiding[$index]=true" ng-click="follow( {{ $id = x.id; }} ); loading[$index]=true; hiding[$index]=true" ng-hide="hiding[$index]">
+                <i class="icon ion-android-person-add"></i> Follow
+                </button>
+
+                    <ion-delete-button class="ion-minus-circled" 
+                                     ng-click="onItemDelete(item)">
+                  </ion-delete-button>
+                  <ion-option-button class="button-assertive" ng-show="loading[$index]" 
+                                     ng-click="unfollow( {{ $id = x.id; }} ); loading[$index]=false; hiding[$index]=false">
+                   <i class="icon ion-android-sad" style="padding-right: 4px;"></i> Unfollow
+                  </ion-option-button>  
+                    
+              </div>
+              
+              <div ng-switch-when="no">
+         
+                <button class="button button-small button-dark noborder cap-button" ng-show="loading[$index]">
+                Following
+                </button>
+              
+                <button class="button button-small button-calm noborder cap-button" ng-click="follow( {{ $id = x.id; }} ); loading[$index]=true; hiding[$index]=true" ng-hide="hiding[$index]">
+                <i class="icon ion-android-person-add"></i> Follow
+                </button>
+
+                    <ion-delete-button class="ion-minus-circled" 
+                                     ng-click="onItemDelete(item)">
+                  </ion-delete-button>
+                  <ion-option-button class="button-assertive" ng-show="loading[$index]" 
+                                     ng-click="unfollow( {{ $id = x.id; }} ); loading[$index]=false; hiding[$index]=false">
+                   <i class="icon ion-android-sad" style="padding-right: 4px;"></i> Unfollow
+                  </ion-option-button>   
+              
+              </div>
+              
+             </div>
+          </ion-item>       
+          
+        </ion-list>
+   		
+        <p class="helptext"> Tip: Swipe to the left to unfollow a user</p>    
+
+                
+     </ion-content>
+        
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+    
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+      </ion-view>

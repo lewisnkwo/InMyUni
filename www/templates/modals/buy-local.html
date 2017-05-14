@@ -1,0 +1,35 @@
+
+      <ion-modal-view style="background-color: transparent">
+        <ion-content class="padding">
+
+<div class="list card explorecard item-card-logo">
+
+    <button class="button button-clear button-primary" ng-class="platform == 'android' ? 'ion-android-close' : 'ion-ios-close-empty'" style="font-size: 34px; float: right;" ng-click="modal.hide();"></button>
+
+  <div class="item item-avatar">
+    <img src="{{post.imagefull}}" err-src="img/noimage.png">
+    <h2><i class="icon ion-information-circled"></i> {{post.title}}</h2>
+    <p><i class="icon ion-university"></i> {{post.taxonomy_product_cat[0].title}}</p>
+<!--    <p><i class="icon ion-clock"></i> Purchase expires: <strong>{{estimatedexpiry_exact}}</strong></p>-->
+  </div>
+   <h3 style="text-align:center">Just to confirm...</h3>
+   
+   <div style="border-top: 1px dashed #ccc; height:20px"></div>
+
+ <div class="saletype-local"> <i class="icon ion-android-people"></i> meeting up with <span class="bolden">{{post.author.name}}</span></div>
+ 
+ <div class="buybutton">
+<div class="button button-full button-dark noborder button-nomargin"><i class="icon" ng-class="platform == 'android' ? 'ion-android-cart' : 'ion-ios-cart'"></i> Buying on <img src="img/button-logo.png" width="69px" height="23px" style="margin: 10px 3px -5px 3px;" /> for £<span style="font-size: 26px;" class="bolden">{{post.price}}</span></div>
+</div>
+
+ <p class="local-confirm-text"> Please arrange to meet up in a reasonable location with {{post.author.name}} (you'll be directed to the order where you can send messages), and please pay <strong>by cash</strong> (in the full amount) only.</p>
+
+ <div class="local-confirm-button">
+<a class="button button-full button-positive noborder button-nomargin" ng-click="createorder(); modal.hide()"><i class="icon ion-beer"></i> Confirm Purchase</a>
+</div>
+
+<p class="local-confirm-text">By purchasing this item, you are again agreeing to our <a ui-sref="about" class="terms-link" ng-click="modal.hide();">Marketplace Terms and Conditions.</a></p>
+
+</div>
+        </ion-content>
+      </ion-modal-view>

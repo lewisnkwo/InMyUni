@@ -1,0 +1,121 @@
+
+<ion-view title="Explore Inmyuni" hide-nav-bar="false">
+      
+
+<ion-side-menus>
+
+<!-- Center content -->
+<ion-side-menu-content>
+ 
+<ion-content class="tabspadding" padding="false" ng-controller="PhotosCtrl"> 
+        
+  <ion-refresher pulling-text="Pull to refresh items" pulling-icon="ion-arrow-down-c" on-refresh="RefreshItems()">
+      </ion-refresher>   
+      
+<div class="button-bar profile-button-bar paddingleftright">
+<button class="button button-full icon-left ion-arrow-left-c button-outline button-energized" ui-sref="explore"></button>
+<button class="button button-full icon-left ion-grid button-outline button-energized cssFadeOut" ng-init="!showlist" ng-click="showlist = false">{{totalnumberresults}}</button>
+<button class="button button-full icon-left ion-drag button-outline button-energized cssFadeOut" ng-init="!showlist" ng-click="showlist = true;" ng-hide="showresults"></button>
+<button class="button button-full icon-left ion-help button-outline button-energized" ng-controller="ItemSearchCtrl" ng-click="searchhelp()"></button>
+</div>
+
+  <button class="button button-full button-light dashedborder-light" ng-click="showitemfilter = !showitemfilter">
+  Search Items <i class="icon ion-gear-a"></i>
+</button>
+
+<div class="" ng-show="showitemfilter"> 
+  <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search by name" ng-model="searchterm.keyword">
+  </label>
+  <button class="button button-full button-energized noborder" ng-click="showitemfilter = !showitemfilter; getresults()">
+  Search <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i>
+</button>
+ <div class="list" style="margin-bottom: 10px">
+ <!-- 
+        <div class="item item-divider"> 
+          Filter your items
+        </div>
+        
+       <ion-toggle ng-model="checked" ng-checked="checked">
+          Only show items with a photo
+        </ion-toggle> --> 
+        
+	</div>
+</div>
+     
+    <div class="hideresults" ng-init="showresults = false" ng-hide="showresults"> 
+   <div id="listresults" ng-hide="showlist">   
+
+   <photo-grid photos="photos"></photo-grid>
+
+   </div>
+   
+   <div id="gridresults" ng-show="showlist">    
+<ion-list>
+
+<!-- ng-repeat for default LIST -->  
+
+  <ion-item ng-repeat="photo in photos" item="item" class="item-thumbnail-left" animation="fade-in" ng-controller="ItemViewMoreCtrl" on-tap="getindex($index)">
+<img ng-src="{{photo.imagefull}}" err-src="img/noimage.png">
+    <h2>{{photo.title}}</h2>
+    <p><i class="icon ion-university"></i> {{photo.taxonomy_product_cat[0].title}}</p>
+    <div class="col"><span class="myitems-price bolden" ng-show="photo.item_status == 'available'">£{{photo.price}}</span></div>
+    <div class="col"><span class="myitems-status bolden" ng-show="photo.item_status == 'sold'">item sold</span></div>
+    <a class="button button-clear button-primary ion-eye" style="font-size: 28px;" ui-sref="itemsingle({ postID: photos[$index].id })"> View More</a>
+       <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
+          <ion-option-button class="button-energized"
+                             ui-sref="itemsingle({ postID: photo.id })" ng-hide="photo.item_status == 'sold'">
+           <i class="icon" ng-class="platform == 'android' ? 'ion-android-cart' : 'ion-ios-cart'" style="padding-left: 4px"></i> 
+          </ion-option-button>
+<!--          <ion-option-button class="button-assertive" ng-controller="MyItemsCtrl"
+                             ng-click="del(item);">
+           <i class="icon ion-android-favorite-outline"></i> 
+          </ion-option-button>-->
+          <ion-option-button class="button-calm"
+                            ng-controller="ShareExploreGridCtrl"
+                             ng-click="shareitem($index); resetshare(); modal.show(); popover.show($event)">
+           <i class="icon ion-share" style="padding-left: 5px"></i> 
+          </ion-option-button>
+  </ion-item>
+</ion-list>
+ <p class="helptext"> Tip: Swipe to the left on an item to view more options.</p>
+   </div> <!-- END showlist -->
+  
+   </div><!-- hideresults END -->
+   
+   <div class="sresults" ng-show="!showresults">
+   <div  class="cssFadeOut" ng-hide="showlist">    
+   <photo-grid photos="photossearch"></photo-grid>
+   </div>
+   
+   </div>
+ 
+   <div ng-switch on="showresults"> 
+      <div ng-switch-when="undefined"><div ng-include="'templates/photo-grid.html'"></div></div>
+      <div ng-switch-when="true"><div ng-include="'templates/photo-grid-search.html'"></div></div>
+   </div>
+   
+<ion-infinite-scroll
+    ng-if="canWeLoadMoreContent()"
+    on-infinite="populateList()" 
+    distance="1%">
+</ion-infinite-scroll> 
+   
+                </ion-content>     
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+    
+
+    <!-- Left menu -->
+    <ion-side-menu side="left">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+           
+      </ion-view>
+

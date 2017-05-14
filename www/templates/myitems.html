@@ -1,0 +1,143 @@
+<ion-view title="Manage Your Items" hide-nav-bar="false">
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+
+      <ion-content class="tabspadding" ng-controller="MyItemsCtrl">
+
+ <ion-refresher pulling-text="Pull to refresh items" pulling-icon="ion-arrow-down-c" on-refresh="RefreshItems()">
+      </ion-refresher>     
+      
+ 	<div ng-hide="hidespinner == true">
+    <ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+    </div>
+
+    <button class="button button-full button-light" ng-click="showitemfilter = !showitemfilter" ng-show="hidespinner == true">
+        <i class="icon" ng-class="platform == 'android' ? 'ion-android-funnel' : 'ion-ios-settings-strong'"></i> Filter
+    </button>
+
+<div ng-show="showitemfilter"> 
+  <label class="item item-input">
+    <i class="icon ion-more placeholder-icon"></i>
+    <input type="text" placeholder="Sort by name" ng-model="searchitems.title">
+  </label>
+
+ <div class="list" style="margin-bottom: 10px">
+ 
+        <div class="item item-divider"> 
+          More filters and search options coming soon.
+        </div>
+        
+	</div>
+</div>  
+
+<ion-list>
+
+<div>
+
+  <ion-item ng-repeat="x in useritems.posts | filter:searchitems" item="item" class="item-thumbnail-left" style="border-top: dashed 1px #ededed">
+  
+<img ng-src="{{x.imagesmall}}" style="border-radius: 5px;">
+    
+    <div ng-hide="x.status == 'draft'">       
+    <a class="nounderline"  ui-sref="itemsingle({ postID: x.id })"><h2 class="header-big">{{x.title}}</h2></a>
+    <a class="nounderline" ui-sref="itemsingle({ postID: x.id })"><span style="font-size:11px" class="bolden"><i class="icon ion-clock"></i>  Posted on: {{x.date}}</span><br /></a>
+    <a class="nounderline" ui-sref="itemsingle({ postID: x.id })"><span style="font-size:11px" class="bolden"><i class="icon ion-pricetag"></i>  Item ID: #{{x.id}}</span></a>
+    </div>
+    
+    <div ng-show="x.status == 'draft'">     
+    <h2 class="header-big">{{x.title}}</h2>
+    <span style="font-size:11px" class="bolden"><i class="icon ion-clock"></i>  Posted on: {{x.date}}</span><br />
+    <span style="font-size:11px" class="bolden"><i class="icon ion-pricetag"></i>  Item ID: #{{x.id}}</span>
+    </div>
+
+    
+  <p class="myitems-meta"> 
+       <i class="icon ion-chatboxes"></i> {{x.comment_count}} <i class="icon ion-heart" style="color: #DC0003"></i> {{x.likes.count.count = x.likes.count.count ? x.likes.count.count : 0}} <i class="icon ion-eye"></i> {{x.custom_fields.item_views[0] == '' ? 0 : x.custom_fields.item_views[0]}}<br />
+  </p>
+ 
+    <div class="row" style="padding: 0px;">
+  <div class="col">
+  
+      <div ng-switch="x.status">
+      <div ng-switch-when="publish" class="item-live"><a class="nounderline" ui-sref="itemsingle({ postID: x.id })"><i class="icon ion-eye"></i></a> Live</div>
+      <div ng-switch-when="draft" class="item-hidden"><i class="icon ion-eye-disabled"></i> Hidden</div>
+      <div ng-switch-when="pending" class="item-review" style="font-size: 15px;"><ion-spinner class="spinner-energized"></ion-spinner> In Review</div>
+     </div>
+
+  </div>
+  <div class="col"><span class="myitems-price bolden">£{{x.price}}</span> <span class="myitems-status bolden" ng-show="x.item_status == 'sold'">sold</span></div>
+</div>  
+        
+       <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
+
+<div ng-switch="x.status">
+    <div ng-switch-when="publish">       
+        <ion-option-button class="button-stable" ng-click="hideitem(item, $index)" ng-hide="x.item_status == 'sold' || x.status == 'pending'">
+        	<i class="icon ion-eye-disabled item-hide" style="padding-left: 4px"></i>
+        </ion-option-button>
+    </div>
+    <div ng-switch-when="draft">
+        <ion-option-button class="button-stable" ng-click="unhideitem(item, $index)" ng-hide="x.item_status == 'sold' || x.status == 'pending'">
+        	<i class="icon ion-eye item-live" style="padding-left: 5px"></i>
+        </ion-option-button>
+    </div>
+	<div ng-switch-when="pending" style="font-size: 15px; padding-left: 5px">
+		<ion-option-button class="button-stable" ng-hide="x.item_status == 'sold' || x.status == 'pending'">
+    		<i class="icon ion-locked item-review"></i> 
+		</ion-option-button>
+    </div>  
+</div>
+    
+          <ion-option-button class="button-energized"
+                             ui-sref="edititem({ itemID: x.id })" ng-hide="x.item_status == 'sold' || x.status == 'pending'">
+      <div ng-switch="x.status">
+      <div ng-switch-when="publish"><i class="icon ion-edit" style="padding-left: 5px"></i></div>
+      <div ng-switch-when="draft"><i class="icon ion-edit" style="padding-left: 5px"></i></div>
+      <div ng-switch-when="pending"><i class="icon ion-locked" style="padding-left: 5px"></i></div>
+     </div>
+          </ion-option-button>
+          <ion-option-button class="button-stable" ui-sref="dashboard({ profileID: currentusermeta.id })" ng-show="x.item_status == 'sold'">
+           <i class="icon ion-podium" style="padding-left: 5px"></i> 
+          </ion-option-button>
+          <ion-option-button class="button-calm" ng-controller="ShareMyItemsCtrl"
+                             ng-click="shareitem(item, $index); resetshare(); popover.show($event)" ng-hide="x.status == 'pending' || x.status == 'draft'">
+           <i class="icon ion-share" style="padding-left: 5px"></i> 
+          </ion-option-button>
+          <ion-option-button class="button-assertive" ng-controller="MyItemsCtrl"
+                             ng-click="del(item, $index); showConfirm();" ng-hide="x.item_status == 'sold'">
+           <i class="icon ion-trash-a" style="padding-left: 5px"></i> 
+          </ion-option-button>
+
+
+  </ion-item>
+  
+<!--  <div class="anchortext paddingleftright" ng-if="itemcount == 0" style="text-align:center"><h1>Hmm.. it seems that you have not listed any items yet. Why not <a class="smalllinks" ui-sref="sell">sell something? <i class="icon ion-bag"></i></a></h1></div>--> 
+
+</div>
+
+</ion-list>
+
+<p class="helptext"> Swipe to the left on an item for options</p>
+
+  <button class="button button-positive icon-left ion-edit" ng-controller="MyItemsPopupCtrl" style="margin: 10px;" ng-click="showAlert()">
+      Editing Your Items
+    </button>
+
+      </ion-content>
+      
+     <!-- main.html end -->
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+</ion-view>

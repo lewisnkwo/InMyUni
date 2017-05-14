@@ -1,0 +1,12 @@
+      <div class="photo-list" id="photo-grid-search">
+	  <h2 class="titlestyle"><i class="icon ion-search"></i> What we found...</h2>
+        <div class="box photo-item" ng-repeat="photo in photossearch.posts"><img ng-src="{{photo.imagefull}}" err-src="img/noimage.png"  class="box-content" ng-controller="ItemViewMoreSearchCtrl" on-tap="getnewindex($index); modal.show();" />
+			<div class="exploregrid-status" ng-show="photo.item_status == 'sold'">
+				<span class="bolden"><i class="icon ion-beer"></i> sold</span>
+			</div>	
+ 			<div class="grid-stats">
+				<i class="icon ion-heart"></i> {{photo.likes.count.count = photo.likes.count.count ? photo.likes.count.count : 0}} 
+				<i class="icon ion-chatboxes"></i> {{photo.comment_count}}
+			</div>		
+		</div>
+      </div>

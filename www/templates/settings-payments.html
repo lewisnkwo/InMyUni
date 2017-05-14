@@ -1,0 +1,119 @@
+<ion-view title="My Inmyuni" hide-nav-bar="false">
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    
+    <ion-side-menu-content>  
+  
+<div class="tabs-striped tabs-top tabs-background-energized tabs-color-light has-tabs-top">
+    <div class="tabs">
+        <a class="tab-item capitalise" ui-sref="dashboard({ profileID: currentusermeta.id })" ui-sref-active="active">	
+            Orders <!--<span class="badge badge-assertive">1</span> -->
+    	</a>
+        <a class="tab-item capitalise" ui-sref="payments({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Payments
+        </a>
+        <a class="tab-item capitalise" ui-sref="account({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Account
+        </a>
+    </div>
+</div>
+
+<ion-content class="top-tabspadding" ng-controller="SettingsPaymentsCtrl"> 
+
+    <div id="pre-verification" ng-hide="currentusermeta.verify_account_1 === 'complete' && currentusermeta.verify_account_2 === 'complete'"> 
+    
+        <div id="pre-verification-inmyuni">
+        
+            <h1 style="text-align:center; margin-top: 10px;"> Getting paid through <img src="img/search-icon.png" width="150px" height="44px" /> </h1>
+            
+               <div class="whathappens-local">  
+            
+                 <h5 class="spacing" style="padding: 15px !important; color: #666"><i class="icon ion-information-circled"></i> By verifying your Inmyuni account, the user experience for each user (including you) will be enhanced and more secure. Follow the instructions below to continue.</h5>
+                 
+              </div>
+                
+            <div class="connect-with" style="margin-top: 20px; margin-bottom: 40px" ng-hide="currentusermeta.verify_account_1 === 'complete'">Step 1: Verify Inmyuni Account</div>
+            <div class="connect-with-complete" style="margin-top: 20px" ng-show="currentusermeta.verify_account_1 === 'complete'"><i class="icon ion-android-done-all"></i> Step 1: Verify Inmyuni Account</div>
+            
+            <button ng-if="verify_email_sent !== true" class="button button-block button-dark button-full ion-android-mail noborder" ng-hide="currentusermeta.verify_account_1 === 'complete'" ng-init="disable_button = false" ng-disabled="disable_button" ng-click="send_verify_email(); disable_button = true"> Resend Verification Email</button>
+       
+            <form name="verifyaccountform" ng-show="currentusermeta.verify_account_1 === 'complete'" novalidate>     
+                <ion-list>
+                    <label class="item item-input">
+                        <span class="input-label"><i class="icon ion-key placeholder-icon"></i> Verification Key</span>
+                        <input type="text" placeholder="Enter key from email" ng-model="verify.key" ng-minlength="5" required>
+                    </label>
+                </ion-list>
+                <p class="validation-message-error"><i class="icon ion-help-circled"></i> Can't see the email? Please check your junk/spam mail also.</p>
+                <button class="button ion-forward button-energized button-block noborder" ng-disabled="verifyaccountform.$invalid" ng-click="verify_account()"> Verify My Account</button>
+            </form>
+            
+<!--            <button ng-show="verify_email_sent === true" class="button button-block button-calm button-full ion-android-refresh noborder" ng-click="check_verification()" style="padding:15px" ng-hide="currentusermeta.verify_account_1 === 'complete'"> Check Verification: Tap To Refresh </button>-->
+            
+        </div>
+    
+        <div class="connect-with" style="margin-top: 50px" ng-hide="currentusermeta.verify_account_2 === 'complete'">Step 2: Connect Your Stripe Account with Inmyuni</div>
+        <div class="connect-with-complete" style="margin-top: 20px" ng-show="currentusermeta.verify_account_2 === 'complete'"><i class="icon ion-android-done-all"></i> Step 2: Connect Your Stripe Account with Inmyuni</div>
+        
+        <div class="whathappens-local">  
+        
+            <a ng-click="open_browser()" ng-hide="currentusermeta.verify_account_2 === 'complete'"><img src="img/connect-with-stripe.png" width="190px" height="33px" class="stripe-logo" /></a>
+        
+            <h5 class="spacing" style="padding: 15px !important; color: #666" ng-hide="currentusermeta.verify_account_2 === 'complete'"><i class="icon ion-information-circled"></i> In order to get paid through Inmyuni (when a user wants an item posted to them) you will need to create a Stripe account (we've already filled out some of the sign-up form on the next step for you). Payments on Inmyuni are securely handled through Stripe. Tap the button above to continue.</h5>
+            
+            <h2>Things to consider:</h2>
+            
+            <h3 class="bolden" style="color: #666"><i class="icon ion-android-done" style="color: #72cc98"></i> You are paid on a 7 day rolling basis</h3>
+            <h4>For example: Joe buys your book, <span style="font-style:italic">'How To Become Successful on Inmyuni'</span> on Monday, June 9th for £5. You get paid £5 <span style="font-size:14px">(minus fees, see below)</span> to your bank account through Stripe on the 16th. <br /><br /> If you get paid on the weekend it may take up to 10 days to get paid.</h4>
+            
+           <h5 class="spacing" style="padding: 15px !important; color: #666; margin-bottom: 20px"><i class="icon ion-information-circled"></i> We always recommend to post your item once the payment for an item is complete. You can always view the payment status of an order in My Inmyuni. <br /><br />If you are not comfortable with posting your item before you get paid to your <span style="font-style:italic">bank account</span> (to speed up the delivery time), then the 'Meet Up' option will be more suitable for you. Regardless, then please adjust your delivery times accordingly.</h5>
+           
+            <h3 class="bolden" style="color: #666"><i class="icon ion-android-done" style="color: #72cc98"></i> Pricing</h3>
+            <h4>Natalie buys your phone charger from you for £5. Inmyuni applies only a 5% application fee to the total price of the item if it is less than £10 (or 10% if more than £10), plus Stripe will charge a (1.9% + 20p) processing fee. <br /><br />For example: £5.00 - £0.25 (Inmyuni) - £0.30 (Stripe) = <span style="color: #72cc98">£4.45</span> will be transferred to your bank account for your item.</h4>
+            
+           <h5 class="spacing" style="padding: 15px !important; color: #666"><i class="icon ion-information-circled"></i> What about refunds?<br /><br /> If someone is not happy with your item and a requested refund is completed, Inmyuni will not refund the application fee. For example: £0.25 (from your bank account) + £0.30 (Stripe processing fee) + <span style="color: #72cc98">£4.45</span> (what you received for your item, from your bank account) = <span style="color: #72cc98">£5</span> — will be refunded back to the buyer. Refunds will take 5-10 working days to appear in the buyer's bank account.</h5>
+            
+        </div>
+         
+    <!--    <div class="create-account-button">
+        
+            <button class="button button-block button-balanced ion-android-hand noborder" ng-controller="StripeChargeCtrl as ctrl" stripe-checkout="ctrl.doCheckout" data-key="pk_test_yb7Tc6kV3RZjcwtWsrM3gVvG"
+        data-image="https://s3.amazonaws.com/stripe-uploads/acct_1038qY2AzZwa9hBomerchant-icon-1446989257562-1024-Main.png"
+        data-name="Inmyuni"
+        data-description="Buy This Cool Product"
+        data-currency="gbp"
+        data-amount="1500"
+        data-locale="auto"
+        > Test Stripe Connect Charge</button>  
+        
+            <button class="button button-block button-assertive ion-link noborder" ng-click="unlink_account()"> Unlink My Account with Stripe</button> 
+           
+        </div>-->
+        
+    </div>  
+    
+	<div id="post-verification" ng-show="currentusermeta.verify_account_1 === 'complete' && currentusermeta.verify_account_2 === 'complete'">
+    
+    	<h3 style="padding: 20px"> Transfer Info will be shown here... </h3>
+    
+    </div>  
+    
+    <button class="button button-block button-balanced button-full ion-link noborder" ng-click="open_browser()"> Link Account</button>
+    <button class="button button-block button-dark button-full ion-link noborder" ng-click="unlink_account()"> Unlink Account</button>
+	<button class="button button-block button-calm button-full ion-information-circled noborder" ng-click="get_info()"> Get Stripe info</button>           
+                    
+</ion-content>
+      
+</ion-side-menu-content>
+        <!-- Center content end -->  
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</ion-view>

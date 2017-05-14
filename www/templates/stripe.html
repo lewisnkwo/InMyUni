@@ -1,0 +1,16 @@
+<div ng-controller="SimpleExampleController as ctrl">
+  <!--
+    Works like Stripe Checkout's simple integration, but calls the
+    function passed to stripe-checkout with the token object instead
+    of submitting a form.
+  -->
+  <button stripe-checkout="ctrl.doCheckout"
+          data-key="pk_test_yb7Tc6kV3RZjcwtWsrM3gVvG"
+          data-name="Simple Example"
+          data-description="Five dollahs!"
+          data-amount="500">
+    Buy
+  </button>
+  
+</div>
+

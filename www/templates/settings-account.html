@@ -1,0 +1,47 @@
+<ion-view title="My Inmyuni" hide-nav-bar="false">
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    
+    <ion-side-menu-content>  
+  
+<div class="tabs-striped tabs-top tabs-background-energized tabs-color-light has-tabs-top">
+    <div class="tabs">
+        <a class="tab-item capitalise" ui-sref="dashboard({ profileID: currentusermeta.id })" ui-sref-active="active">	
+            Orders <!--<span class="badge badge-assertive">1</span> -->
+    	</a>
+        <a class="tab-item capitalise" ui-sref="payments({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Payments
+        </a>
+        <a class="tab-item capitalise" ui-sref="account({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Account
+        </a>
+    </div>
+</div>
+
+<ion-content class="top-tabspadding" ng-controller="SettingsAccountCtrl">  
+      
+    <p class="helptext">View and edit your account settings on Inmyuni.</p>    
+    
+<!--    <div class="list">
+    
+        <ion-toggle ng-repeat="item in settingsList" ng-model="item.checked" ng-checked="item.checked" toggle-class="toggle-calm">
+        	{{ item.text }}
+        </ion-toggle>
+    
+    </div>-->
+                 
+</ion-content>
+      
+</ion-side-menu-content>
+        <!-- Center content end -->  
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</ion-view>

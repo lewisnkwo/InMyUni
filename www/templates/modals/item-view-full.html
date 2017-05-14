@@ -1,0 +1,104 @@
+
+      <ion-modal-view style="background-color: transparent">
+        <ion-content padding="true" style="height: auto" ng-controller="FullPostCtrl">
+
+<div class="list card explorecard paddingleftright-large">
+
+<button class="button button-clear button-primary" ng-class="platform == 'android' ? 'ion-android-close' : 'ion-ios-close-empty'" style="font-size: 34px; float: right;" ng-click="modal.hide()"></button>
+<!--<button class="button button-clear button-primary ion-gear-a" style="font-size: 34px; float: right;" ng-controller="PopCardSettingsCtrl" ng-click="popover.show($event)"></button>-->
+
+<h1>Full Info:</h1>
+
+<h4><i class="icon ion-information-circled"></i> Item Name </h4>
+<div class="item-desc" style="font-size: 20px;">{{post.title}}</div>
+
+<h4><i class="icon ion-information-circled"></i> Item Description </h4>
+<div class="item-desc">{{desc}}</div>
+
+<h4><i class="icon ion-location"></i> Item Location </h4>
+<div class="item-desc">{{post_wc.categories[0]}}</div>
+
+<div class="list">
+
+  <div class="item item-divider light-divider">
+   <i class="icon ion-cube"></i> More Info 
+  </div>
+
+  <li class="item">
+    <i class="icon ion-pricetag"></i> Price: <span style="text-align:right">£{{post.price}}</span>
+  </li>
+  
+  <li class="item">
+   <i class="icon ion-eye"></i> Views: {{post.custom_fields.item_views[0]}}
+  </li>
+  
+  <li class="item">
+   <i class="icon ion-pricetag"></i> ID: {{post.id}}
+  </li>
+  
+  <li class="item">
+   <i class="icon ion-clock"></i> Updated:  <strong>{{post.modified}}</strong>
+  </li>
+  
+  <li class="item">
+   <i class="icon ion-leaf"></i> Condition:  {{post_wc.attributes[3].options[0]}}
+  </li>
+  
+    <div ng-hide="!post_wc.attributes[0].options[0]"> <!-- Book Info -->
+    
+      <div class="item item-divider light-divider">
+       <i class="icon ion-bookmark"></i> Book Info 
+      </div>
+    
+      <li class="item">
+       <i class="icon ion-printer"></i> Publisher: {{post_wc.attributes[1].options[0]}}
+      </li>
+      
+      <li class="item">
+       <i class="icon ion-person-stalker"></i> Author(s):  {{post_wc.attributes[2].options[0]}}
+      </li>
+      
+      <li class="item">
+       <i class="icon ion-document-text"></i> ISBN: {{post_wc.attributes[0].options[0]}}
+      </li>
+ 
+<!-- Add in next verison:
+      <div class="preview-book" style="margin-top: 8px;"><i class="icon ion-android-bookmark"></i> Book Preview</div>
+      <img class="google-book-button" src="img/gbs_preview_button1.gif" />
+-->
+    </div>
+
+</div>
+
+<h3 class="paddingleftright">How Do I Pay/Get this item?</h3>
+
+<div class="row"> <!-- Local Meet Up -->
+
+<div class="col col-33 item-soldby">
+<div class="saletype-local-small"><i class="icon ion-person-stalker"></i> Meet Up</div>
+</div>
+
+<div class="col col-67 item-soldby">
+<strong>Local Meet Up:</strong><br/>
+<div class="item-help-text">Meet up with this seller in an area local to your university's area. Payments should be in cash, in exchange for the item. <strong>Tip:</strong> Please go with a friend for extra security.</div>
+</div>
+
+</div> 
+
+<div class="row"> <!-- Delivery -->
+
+<div class="col col-33 item-soldby">
+<div class="saletype-national-small"><i class="icon ion-email"></i> Posted</div>
+</div>
+
+<div class="col col-67 item-soldby">
+<strong>Posted</strong><br/>
+<div class="item-help-text">The item will be delivered to you by the seller, after a successful payment to the seller through a secure payment gateway (Stripe).</div>
+</div>
+
+</div> 
+
+
+</div> <!-- END explorecard -->
+        </ion-content>
+      </ion-modal-view>

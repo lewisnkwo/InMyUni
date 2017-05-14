@@ -1,0 +1,304 @@
+      <ion-view ng-controller="ProfileCtrl" title="{{userinfo.user.name}}'s Profile" hide-nav-bar="false">
+      
+      
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+
+        <ion-content class="tabspadding" padding="false">
+        
+<!-- PROFILE HEADER START -->
+
+<div class="row" id="profileheader">
+  <div class="col col-67 center-text">
+  <h2 class="profilename"><i class="icon ion-person"></i> {{userinfo.user.name}}</h2>
+<div class="desc" ng-hide="!authorposts.author.description">
+<i class="icon ion-information-circled"></i> {{authorposts.author.description}}
+</div>
+  <p class="useruni"><i class="icon ion-university" style="font-size: 38px;"></i> {{uni}} </p>                    
+                         
+<div class="row center-text nopadding">
+
+
+
+<div class="col col-33 center-text" style="display:block"> 
+<!--<a class="profileactions" ui-sref="followers({ profileID: {{visit_profile_id}} })">
+ <span class="profile-meta bolden">{{counts.followers}}</span><br/><i class="icon ion-person-stalker" style="font-size: 25px; color: #fc0"></i>
+</a>-->
+
+</div>
+
+<div class="col col-33 center-text"> 
+ <span class="profile-meta bolden">{{postscount}}</span><br/><i class="icon" ng-class="platform == 'android' ? 'ion-pricetags' : 'ion-ios-pricetags'" style="font-size: 27px; color: #fc0"></i> 
+</div>
+
+<div class="col col-33 center-text" style="display:block">
+<!--<a class="profileactions" ui-sref="following({ profileID: {{visit_profile_id}} })">
+ <span class="profile-meta bolden">{{counts.following}}</span><br/><i class="icon ion-android-person-add" style="font-size: 25px; color: #fc0"></i>
+</a>-->
+</div>
+
+
+</div>
+
+<!--<div ng-if="currentusermeta.id != authorposts.author.id" ng-switch="userinfo.following_them">
+
+<div ng-switch-when="yes">
+<button class="button button-small button-dark noborder capitalise-button" ng-click="unfollow()" ng-hide="unfollowed == true">
+						 <i class="icon ion-android-done"></i> Following
+						 </button>     
+<button class="button button-small button-calm noborder" ng-click="follow()" ng-show="unfollowed == true">
+						 <i class="icon ion-backspace-outline"></i> Follow 
+						 </button>                     
+</div>
+
+<div ng-switch-when="no">                        
+<button class="button button-small button-calm noborder capitalise-button" ng-click="follow()" ng-hide="followed == true">
+						 <i class="icon ion-android-person-add"></i> Follow 
+						 </button>           
+<button class="button button-small button-dark noborder" ng-click="unfollow()" ng-show="followed == true">
+						 <i class="icon ion-android-done"></i> Following
+						 </button>             
+</div>
+
+</div>-->
+
+<!--<button class="button button-small button-assertive noborder" ng-click="clearuser()">
+						 <i class="icon ion-backspace-outline"></i> Clear Followers
+						 </button>-->
+
+	    <div ng-if="userinfo.ratings_count >= 1 || userinfo.ratings_count.count >= 1" ui-sref="view_ratings({ profileID: {{second_profile_id}} })">
+
+ <div class="icon-rating-current centered">
+  <!--           <ul class="rating">
+               <li ng-repeat="i in star.full track by $index"><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+               <li ng-show="showHalf"><i class="icon icon-rating ion-android-star-half"></i></li>
+               <li ng-repeat="i in star.outline track by $index"><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+             </ul> -->
+        <ul ng-show="rating.current >= '1' && rating.current <= '1.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '1.5' && rating.current <= '1.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '2' && rating.current <= '2.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '2.5' && rating.current <= '2.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '3' && rating.current <= '3.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '3.5' && rating.current <= '3.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '4' && rating.current <= '4.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="rating.current >= '4.5' && rating.current <= '4.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'" ></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'" ></i></li>
+        </ul>
+        <ul ng-show="rating.current == '5'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+        </ul>
+      </div>
+      
+       <span style="color: #666; font-weight:bold; font-size: 16px;">{{rating.current}}/5</span> | {{rating.count}} {{rating_noun}} | <a class="view-ratings-link" ui-sref="view_ratings({ profileID: {{second_profile_id}} })">View <i class="icon ion-arrow-right-c"></i></a>
+       
+       </div>  <!-- END if user has ratings -->
+       
+       <div ng-show="userinfo.ratings_count < 1 || userinfo.ratings_count.count < 1">
+       
+       <p class="rating-meta">No ratings yet.</p>
+       
+       </div>
+       
+     <!--   <button class="button button-small button-dark" ng-click="clearratings()">
+						 <i class="icon ion-backspace-outline"></i> Clear Ratings
+						 </button> -->
+                         {{rate}} 
+   
+<!--                      
+<button class="button button-small button-calm noborder" ng-click="follow()">
+						 <i class="icon ion-android-person-add"></i> Follow
+						 </button>
+<button class="button button-small button-assertive noborder" ng-click="unfollow()">
+						 <i class="icon ion-backspace-outline"></i> Unfollow
+						 </button>
+
+<button class="button button-small button-light" ng-click="clearuser()">
+						 <i class="icon ion-backspace-outline"></i> Clear User
+						 </button>
+<button class="button button-small button-royal" ng-click="showuser()">
+						 <i class="icon ion-backspace-outline"></i> Show Current
+						 </button>
+                         {{followed}}
+-->
+
+  </div>
+
+  <div class="col col-33">
+  <img ng-src="{{$photo = userinfo.user.image[0] == null || userinfo.user.image[0] == '' ? 'img/default_avatar_male.jpg' : userinfo.user.image[0]; $photo }}" err-src="img/default_avatar_male.jpg" width="100px" height="100px" style="float: right; border-radius: 50%" />
+<button class="button button-clear button-large button-primary ion-eye position-eye" ng-controller="FullscreenImageCtrl" ng-click="showImage($photo)"></button>
+
+<div class="profile-options">This user can:</div>
+<div class="saletype-local-small"> <i class="icon ion-person-stalker"></i> meet up</div>
+<!--<div class="saletype-national-profile"> <i class="icon ion-email"></i> post items</div>-->
+  </div>
+
+</div>
+
+<div class="button-bar profile-button-bar paddingleftright">
+<button class="button icon-left button-energized noborder" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'" ng-click="rateuser()" ng-hide="currentusermeta.id == authorposts.author.id">rate</button>
+<button class="button icon-left button-energized noborder" ng-class="platform == 'android' ? 'ion-android-chat' : 'ion-ios-chatbubble-outline'" ng-controller="ProfileCommentCtrl" ng-click="modal.show()" ng-hide="authorposts.count == 0 || currentusermeta.id == authorposts.author.id">ask</button>
+<button class="button icon-left ion-share button-energized noborder" ng-controller="ShareProfileLinkCtrl" ng-click="shareprofilelink(); popover.show($event)">more</button>
+<!-- ADD MAP FUNCTIONALITY IN LATER APP VERSION <button class="button icon-left ion-map button-energized noborder" ng-controller="ProfileMapModalCtrl" ng-click="modal.show()"></button> -->
+</div>
+
+<!-- PROFILE HEADER END -->
+
+<!-- PROFILE ITEMS START -->
+
+<!-- PROFILE ITEMS END --> 
+      
+<div class="button-bar profile-button-bar paddingleftright">
+<button class="button button-full icon-left ion-grid button-outline button-energized cssFadeOut" ng-init="!showlist" ng-click="showlist = false">{{totalnumberresults}}</button>
+<button class="button button-full icon-left ion-drag button-outline button-energized cssFadeOut" ng-init="!showlist" ng-click="showlist = true;" ng-hide="showresults"></button>
+<button class="button button-full icon-left ion-refresh button-outline button-energized cssFadeOut" ng-init="!showlist" ng-click="doRefresh()" ng-show="showresults"></button>
+<button class="button button-full icon-left button-outline button-energized" ng-class="platform == 'android' ? 'ion-help' : 'ion-ios-help-outline'" ng-controller="ItemSearchProfileCtrl" ng-click="searchhelp()"></button>
+</div>
+
+<p class="helptext" ng-show="authorposts.posts.length == 0"> {{userinfo.user.name}} hasn't posted any items for sale yet...</p>    
+
+<!--
+  <button class="button button-full button-light dashedborder-light" ng-click="showitemfilter = !showitemfilter">
+ Search {{currentusermeta.firstname}}'s Items <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i>
+</button>
+
+
+<div ng-show="showitemfilter"> 
+  <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search by name" ng-model="searchterm">
+  </label>
+  <button class="button button-full button-energized noborder" ng-click="showitemfilter = !showitemfilter; getresults()">
+  Search User <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i>
+</button>
+ <div class="list" style="margin-bottom: 10px">
+
+        <div class="item item-divider"> 
+          Filter your items
+        </div>
+        
+       <ion-toggle ng-model="checked" ng-checked="checked">
+          Only show items with a photo
+        </ion-toggle> 
+        
+	</div>
+</div>  -->
+
+     
+    <div class="hideresults" ng-init="showresults = false" ng-hide="showresults"> 
+   <div id="listresults" ng-hide="showlist">   
+   
+<!-- ng-repeat for default GRID -->
+   <profile-grid photos="photos"></profile-grid>
+	
+   </div>
+   
+   <div id="gridresults" ng-show="showlist">    
+<ion-list>
+
+
+<!-- ng-repeat for default LIST -->  
+
+  <ion-item ng-repeat="photo in authorposts.posts" item="item" class="item-thumbnail-left" animation="fade-in" ng-controller="ItemViewMoreProfileCtrl" on-tap="getindex($index)">
+<img ng-src="{{photo.imagefull}}" err-src="img/noimage.png">
+    <h2>{{photo.title}}</h2>
+    <p><i class="icon ion-university"></i> {{photo.taxonomy_product_cat[0].title}}</p>
+    <button class="button button-clear button-primary ion-eye" style="font-size: 28px;" ng-click="modal.show();"> View More</button>
+       <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
+          <ion-option-button class="button-energized"
+                             ui-sref="itemsingle({ postID: photo.id })" ng-hide="photo.item_status == 'sold'">
+           <i class="icon" ng-class="platform == 'android' ? 'ion-android-cart' : 'ion-ios-cart'" style="padding-left: 4px"> </i> 
+          </ion-option-button>
+<!--          <ion-option-button class="button-assertive" ng-controller="MyItemsCtrl"
+                             ng-click="del(item);">
+           <i class="icon ion-android-favorite-outline"></i> 
+          </ion-option-button>-->
+          <ion-option-button class="button-calm"
+                             ng-controller="ShareProfileCtrl"
+                             ng-click="shareitem($index); resetshare(); modal.show(); popover.show($event)">
+           <i class="icon ion-share" style="padding-left: 4px"></i> 
+          </ion-option-button>
+  </ion-item>
+
+</ion-list>
+   </div>
+   </div><!-- hideresults END -->
+   
+   <div class="sresults" ng-show="!showresults">
+   <div class="cssFadeOut" ng-hide="showlist">    
+   <photo-grid photos="photosprofile"></photo-grid>
+   </div>
+   
+   </div>
+ 
+   <div ng-switch on="showresults"> 
+      <div ng-switch-when="undefined"><div ng-include="'templates/photo-grid-profile.html'"></div></div>
+<!--      <div ng-switch-when="true"><div ng-include="'templates/photo-grid-search.html'"></div></div>-->
+   </div>
+      </ion-content>
+      
+    </ion-side-menu-content>
+        <!-- Center content end --> 
+ 
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+  
+  </ion-view>

@@ -1,0 +1,156 @@
+<ion-view title="My Inmyuni" hide-nav-bar="false">
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    
+    <ion-side-menu-content>  
+  
+<div ng-if="platform_android == true" class="tabs-striped tabs-top tabs-background-energized tabs-color-light has-tabs-top">
+    <div class="tabs">
+        <a class="tab-item capitalise" ui-sref="dashboard({ profileID: currentusermeta.id })" ui-sref-active="active">	
+            Orders <!--<span class="badge badge-assertive">1</span> -->
+    	</a>
+        <a class="tab-item capitalise" ui-sref="payments({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Payments
+        </a>
+        <a class="tab-item capitalise" ui-sref="account({ profileID: currentusermeta.id })" ui-sref-active="active">
+            Account
+        </a>
+    </div>
+</div>
+
+     <ion-content class="" ng-class="platform == 'android' ? 'top-tabspadding' : 'tabspadding'" ng-controller="DashboardCtrl">  
+     
+ 	<ion-refresher pulling-text="Pull to refresh" pulling-icon="ion-arrow-down-c" on-refresh="RefreshDashboard()">
+      </ion-refresher> 
+     
+ 	<div ng-hide="hidespinner == true">
+    <ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+    </div>  
+ 
+<div ng-show="hidespinner == true">
+    
+<!--       <a class="button button-calm icon-left ion-android-close" style="margin: 10px 0px 10px 10px" ng-click="deleteuserorders()">
+          Delete User Orders
+        </a> -->
+    
+     	 <p class="helptext"> Use <i class="icon ion-university"></i>My <img src="img/dashboard-icon.png" width="100px" height="29px" style="margin-bottom: -6px; margin-left: -9px; margin-right: -7px; text-align: left !important;" /> (your dashboard) to manage orders on your items; or orders made by you.</p>    
+        
+        <div class="item item-divider light-divider-dashboard">
+          <i class="icon ion-document-text"></i> My Items
+        </div>
+        
+        <div class="row">
+          <div class="col"><span class="orders-text-small bolden">Total Orders:</span>
+          <br />
+          <p class="orders-number-large">{{sellerordercount}}</p>
+          </div>
+          <div class="col"><span class="orders-text-small bolden">Total Earned So Far:</span>
+          <br />
+          <p class="orders-number-large" style="color: #64c42a;">£{{totalearned}}</p>
+          </div>
+        </div>
+<!--       <i class="icon ion-stats-bars" style="font-size: 60px; color: #ededed; padding-left: 20px;"></i> <i class="icon ion-network" style="font-size: 60px; color: #ededed; padding-left: 20px;"></i> <i class="icon ion-android-happy" style="font-size: 60px; color: #ededed; padding-left: 20px;"></i> -->
+        <ion-list>
+        
+  <ion-item ng-repeat="x in sellerorders.orders" item="item">
+                   
+                <h2 class="header-big"><i class="icon ion-pricetag"></i>{{x.order_id}}: {{x.item_name}}</h2>
+                <a ui-sref="order({ orderID: x.order_id })" class="nounderline"><i class="icon ion-clock"></i>  Last Updated: <span class="bolden">{{x.updated_at | date:'EEEE dd/MM/yyyy @ h:mma'}}</span>
+    <div ng-switch="x.order_status">
+        <div ng-switch-when="on-hold" class="order-pending"><i class="icon" ng-class="platform == 'android' ? 'ion-android-more-horizontal' : 'ion-ios-circle-outline'"></i> Pending Payment</div> 
+        <div ng-switch-when="completed" class="order-completed"><i class="icon" ng-class="platform == 'android' ? 'ion-android-done-all' : 'ion-ios-checkmark-outline'"></i> Completed</div>
+        <div ng-switch-when="cancelled" class="order-cancelled"><i class="icon" ng-class="platform == 'android' ? 'ion-android-cancel' : 'ion-ios-close-outline'"></i> Cancelled</div>
+    </div>
+				</a>
+                <div class="row" style="padding: 0px;">
+                   <div class="col" style="margin-top: 10px;"><a ui-sref="order({ orderID: x.order_id })" class="item-review-link"><i class="icon ion-eye"></i> View Full Order &amp; Messages</a></div>
+            	</div>  
+                    
+                </span>
+                   <ion-delete-button class="ion-minus-circled" 
+                                         ng-click="onItemDelete(item)">
+                      </ion-delete-button>
+                      
+                      <ion-option-button ng-hide="x.order_status == 'completed' || 'cancelled'" class="button-stable" ui-sref="order({ orderID: x.order_id })">
+                       <i class="icon ion-edit" style="padding-right: 5px;"></i> Edit Order
+                      </ion-option-button>
+                      
+                      <ion-option-button ng-show="x.status == 'completed'" class="button-calm" ng-controller="ShareMyItemsCtrl"
+                                         ng-click="popover.show($event)">
+                       <i class="icon ion-share"></i> 
+                      </ion-option-button>
+
+              </ion-item>
+            
+        </ion-list>
+        
+    
+        <div class="item item-divider light-divider-dashboard">
+          <i class="icon" ng-class="platform == 'android' ? 'ion-android-document' : 'ion-ios-list'"></i> My Orders
+        </div>  
+        
+        <div class="row">
+          <div class="col"><span class="orders-text-small">Total Orders:</span>
+          <br />
+          <p class="orders-number-large">{{myorders.orders.length}}</p>
+          </div>
+          <div class="col"><span class="orders-text-small">Total Spent:</span>
+          <br />
+          <p class="orders-number-large">£{{totalspent}}</p>
+          </div>
+        </div>
+        
+        <ion-list>
+        
+  <ion-item ng-repeat="x in myorders.orders.slice().reverse()" item="item">
+                   
+                <a ui-sref="itemsingle({ postID: x.id })" class="nounderline"><h2 class="header-big"><i class="icon ion-pricetag"></i>{{x.id}}: {{x.line_items[0].name}}</h2></a>
+                <a ui-sref="myorder({ orderID: x.id })" class="nounderline"><i class="icon ion-clock"></i>  Last Updated: <span class="bolden">{{x.updated_at | date:'EEEE dd/MM/yyyy @ h:mma'}}</span>
+    <div ng-switch="x.status">
+        <div ng-switch-when="on-hold" class="order-notpaid"><i class="icon" ng-class="platform == 'android' ? 'ion-android-more-horizontal' : 'ion-ios-circle-outline'"></i> Not Paid Yet</div>
+        <div ng-switch-when="completed" class="order-completed"><i class="icon" ng-class="platform == 'android' ? 'ion-android-done-all' : 'ion-ios-checkmark-outline'"></i> Completed</div>
+        <div ng-switch-when="cancelled" class="order-cancelled"><i class="icon" ng-class="platform == 'android' ? 'ion-android-cancel' : 'ion-ios-close-outline'"></i> Cancelled</div>
+    </div>
+				</a>
+                <div class="row" style="padding: 0px;">
+                   <div class="col" style="margin-top: 10px;"><a ui-sref="myorder({ orderID: x.id })" class="item-review-link"><i class="icon ion-eye"></i> View Order &amp; Messages</a></div>
+            	</div>  
+                    
+                   <ion-delete-button class="ion-minus-circled" 
+                                         ng-click="onItemDelete(item)">
+                      </ion-delete-button>
+ 
+                      
+                      <ion-option-button class="button-energized" 	
+                                         ui-sref="itemsingle({ postID: x.line_items[0].product_id })">
+                       <i class="icon" ng-class="platform == 'android' ? 'ion-eye' : 'ion-ios-eye'" style="padding-right: 5px;"></i> View Item
+                      </ion-option-button>
+                      
+<!--                      <ion-option-button ng-show="x.status == 'completed'" class="button-calm" ng-controller="PopCardShareOrderCtrl"
+                                         ng-click="popover.show($event)">
+                       <i class="icon ion-share" style="padding-left: 5px;"></i> 
+                      </ion-option-button>-->
+
+              </ion-item> 
+        
+        </ion-list>    
+
+</div> <!-- ng-show="hidespinner == true" -->
+
+ 	 <p class="helptext"> Tip: Swipe to the left on an order to edit it.</p>      
+                 
+     </ion-content>
+      
+</ion-side-menu-content>
+        <!-- Center content end -->  
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</ion-view>

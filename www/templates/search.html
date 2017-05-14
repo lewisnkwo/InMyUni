@@ -1,0 +1,118 @@
+<ion-view title="Search Results" hide-nav-bar="false">
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+
+
+      <ion-content class="tabspadding">   
+
+       <!-- our list and list items -->
+       
+  <button class="button button-full button-light" ng-click="showitemfilter = !showitemfilter">
+  <i class="icon ion-gear-a"></i>
+</button>
+
+<div ng-show="showitemfilter"> 
+  <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Sort by name" ng-model="searchitems.title">
+  </label>
+<!--    <li class="item item-toggle">
+     Show only Live items
+     <label class="toggle toggle-balanced">
+       <input type="checkbox" ng-model="liveorhidden">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li> -->
+ <div class="list" style="margin-bottom: 10px">
+ 
+        <div class="item item-divider"> 
+          Filter search items
+        </div>
+        
+<!--        <ion-toggle ng-model="checked" ng-checked="checked">
+          Only show items with a photo
+        </ion-toggle> --> 
+        
+	</div>
+</div>
+
+ 	 <p class="helptext" ng-hide="results.posts != null"> Tap the magnifying glass to the right to begin search</p>   
+    
+
+<ion-list ng-controller="SearchCtrl">
+  <ion-item collection-repeat="x in results.posts | filter:searchitems" item="item" class="item-thumbnail-left"  ui-sref="itemsingle({ postID: x.id })">
+  
+  {{$index + 1 + '.'}}
+  
+<img ng-src="{{x.imagesmall}}">
+
+
+            
+    <a class="nounderline"><h2 class="header-big">{{x.title}}</h2></a>
+    <a class="nounderline"><i class="icon ion-clock"></i>  Posted on: <strong>{{x.date}}</strong><br /></a>
+  <p class="myitems-meta"> 
+       <i class="icon ion-chatboxes"></i> {{x.comment_count}} <i class="icon ion-heart"></i> {{x.likes.count.count = x.likes.count.count ? x.likes.count.count : 0}} <i class="icon ion-eye"></i> {{x.custom_fields.item_views[0] == '' ? 0 : x.custom_fields.item_views[0]}}<br />
+  </p>
+
+    <div class="row" style="padding: 0px;">
+  <div class="col">
+  
+      <div ng-switch="x.status">
+      <div ng-switch-when="publish" class="item-live"><a class="view-item-link"><i class="icon ion-eye"></i> View Item</a></div>
+      <div ng-switch-when="draft" class="item-hidden"><i class="icon ion-eye-disabled"></i> Hidden</div>
+     </div>
+
+     
+  </div>
+  <div class="col"><span class="search-price">£<strong>{{x.price}}</strong></span></div>
+</div>  
+        
+
+       <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
+        <div ng-switch="x.status">
+      
+      <div ng-switch-when="publish" class="item-hide">
+                <ion-option-button class="button-stable"
+                            ui-sref="itemsingle({ postID: x.id })">
+      <i class="icon ion-eye" style="padding-left: 4px"></i>
+          		</ion-option-button>
+      </div>
+      
+      <div ng-switch-when="draft" class="item-live">
+                <ion-option-button class="button-stable"
+                             >
+      <i class="icon ion-eye-disabled" style="padding-left: 4px"></i>
+          		</ion-option-button>
+      </div>
+      
+     </div>
+<!--          <ion-option-button class="button-calm" 
+                             ng-click="popover.show($event)">
+           <i class="icon ion-share"></i> 
+          </ion-option-button>-->
+
+
+  </ion-item>
+
+</ion-list>
+
+      </ion-content>
+      
+     <!-- main.html end -->
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+</ion-view>

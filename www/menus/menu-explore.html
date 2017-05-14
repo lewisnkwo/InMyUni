@@ -1,0 +1,23 @@
+<ion-header-bar class="bar-energized">
+        <h1 class="title"><i class="icon ion-android-settings"></i> Explore Filters</h1>
+      </ion-header-bar>
+      
+<ion-content class="tabspadding">
+
+<div class="list">
+
+         <ion-toggle ng-repeat="item in settingsList"
+                    ng-model="item.checked" 
+                    ng-checked="item.checked" toggle-class="toggle-calm">
+          {{ item.text }}
+        </ion-toggle>
+        
+  <li class="item">
+  <button class="button button-calm icon-left ion-android-bulb" ng-controller="ExploreHelpCtrl" style="margin-bottom: 10px;" ng-click="showhelp()">
+      Help Me
+    </button> 
+  </li>
+</div>
+
+
+</ion-content>

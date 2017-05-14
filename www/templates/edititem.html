@@ -1,0 +1,155 @@
+
+<ion-view ng-controller="EditItemCtrl" title="Edit '{{ single_product.product.title }}'"  hide-nav-bar="false">
+
+<ion-side-menus>
+
+    <ion-side-menu-content>
+    
+        <ion-content class="tabspadding" padding="true">
+        
+        <div ng-hide="hidespinner == true">
+        <ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+        </div>  
+        
+            <form name="edititemform" novalidate>
+            
+                <ion-list>
+                
+                 <div class="item item-divider light-divider">
+                    <i class="icon ion-edit"></i> Main Details
+                    </div>           
+                    
+<!--                        <label class="item item-input item-floating-label">
+                            <div class="input-label">
+                             <i class="icon ion-android-checkmark-circle placeholder-icon"></i> Current Status
+                            </div>
+                            
+<input type="text" placeholder="Item Status" name="itemstatus" ng-model="single_product.product.status" ng-disabled="true">
+                        </label>-->
+
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label"><i class="icon ion-information placeholder-icon"></i>Title</span> 
+                            <input type="text" placeholder="Item Title" name="itemtitle" ng-model="single_product.product.title" ng-change="altered.title = true" ng-minlength="2" ng-maxlength="150" pattern="[a-zA-Z0-9áéíóú ]+">
+                        </label>
+                        
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label"><i class="icon ion-pricetag placeholder-icon"></i>Price (£)</span>
+                            <input style="font-size: 20px;" type="number" string-to-number placeholder="Price: £1-£1000" name="itemprice" ng-model="single_product.product.price" ng-change="altered.price = true" min="1" max="1000" pattern="\d+(\.\d{2})?">
+                        </label>
+                          
+<!--                        <label class="item item-input item-floating-label">
+                            <div class="input-label">
+                             <i class="icon ion-leaf placeholder-icon"></i> Condition
+                            </div>
+                            
+                            <input type="text" placeholder="Item Status" name="itemcondition" ng-model="single_product.product.attributes[3].options[0]" ng-disabled="true">
+                            
+                        </label>-->
+                
+                    <div class="item item-divider light-divider">
+                          <i class="icon ion-camera"></i> Change Main Photo
+                    </div>
+                
+                    <div class="bookcoverpreview">
+                 
+                    
+                    <div class="button-bar noborder profile-button-bar">
+                    <button class="button icon-left ion-camera button-calm" ng-click="takePicture()"> Take A Photo</button>
+                    <button class="button icon-left ion-image button-calm" ng-click="selectPicture()"> Select Image</button>
+                    </div>	          
+                    
+                    <div ng-hide="imgURI !== undefined" class="avatarpreview">
+                        <i class="icon" ng-class="platform == 'android' ? 'ion-android-image' : 'ion-ios-cloud-upload'"></i>
+                        <h4>Current Item Photo:</h4>
+                        <img ng-src="{{single_product.product.featured_src}}" err-src="img/noimage.png" class="roundedimg" width="300px" height="300px" />
+
+                    </div>
+                    
+                    <div ng-show="imgURI !== undefined" class="uploadframe">
+                                <img ng-src="{{imgURI}}" width="300px" height="300px" err-src="img/noimage.png" />
+                                    <button class="button button-block button-energized icon-left ion-upload noborder" ng-click="uploadpic()">Upload</button>
+                    </div>                
+                    
+                    </div> <!-- END item image edit -->     
+                    
+                    
+                    <a class="button button-energized button-small noborder icon-left ion-images" style="margin: 10px 0px 10px 0px" ng-controller="UploadPhotosCtrl" ng-click="morephotos()">
+                    	Can I upload more photos?
+                    </a>                
+                   
+                      <label class="item item-input item-floating-label">
+                        <span class="input-label"><i class="icon ion-compose placeholder-icon"></i>Current Description</span>
+                        <textarea name="olddescription" placeholder="No description available." ng-model="current_desc" ng-disabled="true"></textarea> 
+                      </label>
+                      
+                      <label class="item item-input item-floating-label">
+                        <span class="input-label"><i class="icon ion-compose placeholder-icon"></i>New Description</span>
+                        <textarea name="newdescription" placeholder="Enter a few words about your item (minimum 10 characters)" ng-change="altered.desc = true" ng-minlength="10" ng-maxlength="1000" placeholder="Update your description here" ng-model="foo.testvalue"></textarea> 
+                      </label>
+                      
+                            <label class="item item-input item-input">
+                            <div class="input-label">
+                             <i class="icon ion-location placeholder-icon"></i> Location
+                            </div>
+                            
+<input type="text" placeholder="Item Location" name="itemlocation" ng-model="single_product.product.categories[0]" ng-disabled="true">
+                        </label>
+                        
+                        <div class="item item-divider bolden">
+                         <i class="icon ion-person-stalker"></i> Delivery Type
+                        </div>  
+                        <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="itemsaletype-local" ng-model="edititem.local" ng-disabled="true" ng-checked="true" required>
+                           </label>
+                           I can meet up with the buyer
+                        </li>
+                        <li class="item item-checkbox item-notice-color">
+                           <label class="checkbox">
+                             <input type="checkbox" name="itemsaletype-national" ng-model="edititem.national" ng-change="altered.national = true" disabled>
+                           </label>
+                           I can post it to the buyer  
+                        </li> 
+                        <div class="item-notice">
+                         <i class="icon ion-alert"></i> A posting (outside of your uni) option will be available in the next update.
+                        </div> 
+                        
+                    <div class="item item-divider light-divider">
+                    <i class="icon ion-cube"></i> Other Item Info
+                    </div>
+                    
+                      <label class="item item-input item-floating-label">
+                        <span class="input-label"><i class="icon ion-edit placeholder-icon"></i>ISBN</span> 
+                        <input type="text" placeholder="Enter ISBN (barcode no.)" name="itemisbn" ng-model="single_product.product.attributes[0].options[0]" ng-change="altered.isbn = true" ng-maxlength="13" pattern="(?:(?=.{17}$)97[89][ -](?:[0-9]+[ -]){2}[0-9]+[ -][0-9]|97[89][0-9]{10}|(?=.{13}$)(?:[0-9]+[ -]){2}[0-9]+[ -][0-9Xx]|[0-9]{9}[0-9Xx])">
+                      </label>
+                      <label class="item item-input item-floating-label">
+                        <span class="input-label"><i class="icon ion-person-stalker placeholder-icon"></i>Author(s)</span> 
+                        <input type="text" placeholder="Enter Author(s); seperate by comma (optional)" name="itemauthors" ng-model="single_product.product.attributes[2].options[0]" ng-change="altered.authors = true" ng-maxlength="200" ng-disabled="showme"  ng-change="altered.authors = true" ng-init="showme=false" ng-maxlength="300">
+                      </label>
+                      <label class="item item-input item-floating-label">
+                        <span class="input-label"><i class="icon ion-printer placeholder-icon"></i>Publisher</span> 
+                        <input type="text" placeholder="Publisher Name (optional)" name="itempublisher" ng-model="single_product.product.attributes[1].options[0]" ng-change="altered.publisher = true" ng-maxlength="200" ng-disabled="showme" ng-change="altered.publisher = true" ng-init="showme=false" ng-maxlength="200">
+                      </label> 
+
+					<button class="button button-energized button-block noborder" ng-class="platform == 'android' ? 'ion-android-checkbox-outline' : 'ion-ios-redo'" ng-click="runupdate()" style="margin-bottom: 30px"> Update Item</button> 
+					<a class="button ion-eye button-dark button-block noborder" ui-sref="itemsingle({ postID: single_product.product.id })"> View Item</a>
+                    <a class="button ion-eye-disabled button-light button-block" ng-click="hideitem()" ng-show="single_product.product.status == 'publish'"> Hide Item</a>
+                    <a class="button ion-eye button-balanced button-block noborder" ng-click="unhideitem()" ng-show="single_product.product.status == 'draft'"> Unhide Item</a>
+					<button class="button ion-trash-b button-assertive button-block noborder" ng-click="delitem()"> Delete Item</button>
+
+                </ion-list>
+            
+            </form>
+        
+        </ion-content>
+    
+    </ion-side-menu-content>
+
+<!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+</ion-side-menus>
+
+</ion-view>

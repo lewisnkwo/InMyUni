@@ -1,0 +1,107 @@
+
+<ion-view title="{{rating_list.ratings.user}}'s Ratings" hide-nav-bar="false" ng-controller="ViewRatingsCtrl">     
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+  
+     <ion-content class="tabspadding" padding="true">
+     
+        <div ng-hide="hidespinner == true">
+        <ion-spinner icon="ripple" class="orders-loader"></ion-spinner>
+        </div>   
+
+		<ion-list>
+          <ion-item class="item-avatar" ng-repeat="x in rating_list.ratings.rating_list" ui-sref="profile({ profileID: {{ x.id; $id = x.id }} })">
+<img ng-src="{{x.avatar[0]}}" err-src="img/default_avatar_male.jpg">
+          <a class="no-line ratings-name" ui-sref="profile({ profileID: {{ x.id; $id = x.id }} })">{{x.name = !x.name ? 'Deleted User' : x.name}}</a>
+ <div class="icon-rating-current centered">
+ 
+        <ul ng-show="x.value >= '1' && x.value <= '1.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '1.5' && x.value <= '1.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '2' && x.value <= '2.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '2.5' && x.value <= '2.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '3' && x.value <= '3.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '3.5' && x.value <= '3.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '4' && x.value <= '4.49'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-outline' : 'ion-ios-star-outline'"></i></li>
+        </ul>
+        <ul ng-show="x.value >= '4.5' && x.value <= '4.99'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'" ></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star-half' : 'ion-ios-star-half'" ></i></li>
+        </ul>
+        <ul ng-show="x.value == '5'" class="rating-current">
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+          <li><i class="icon" ng-class="platform == 'android' ? 'ion-android-star' : 'ion-ios-star'"></i></li>
+        </ul>
+      </div>
+        <p class="rating-meta">Comment for Item Bought: '{{x.post_title}}'</p>    
+      <p class="bolden">{{x.comment == 'undefined' ? 'No comment left.' : x.comment }}</p>
+
+      <p>{{x.time}}</p>
+      
+          </ion-item>
+        </ion-list>
+    
+		<h1 class="center-header"> Total Ratings: {{rating_list.ratings.ratings_count.count}}</h1>
+ 		<h2 class="center-header"> User Rating: {{rating_list.ratings.ratings_avg.average}}/5</h2>   
+    </ion-content>
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+        
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+ </ion-side-menus>
+
+</ion-view>

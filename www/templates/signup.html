@@ -1,0 +1,101 @@
+<ion-view title="Signup with Inmyuni" class="signupmore" hide-nav-bar="true">
+   <div ng-controller="SignupCtrl">
+    <ion-content padding="true" class="">
+ 
+<div class="spacer" style="height: 10px;"></div>
+  <div class="item item-divider dark-divider">
+    Signup with Inmyuni
+  </div>
+  
+<!--
+<button class="button ion-social-facebook button-positive button-block facebookbg" ng-click="loginfb()"> Connect with Facebook</button>
+<button class="button ion-social-googleplus button-positive button-block googlebg" ng-click="logingoogle()"> Signup with Google</button> 
+<button class="button ion-social-twitter button-positive button-block twitterbg" ng-click="logintwitter()"> or with Twitter</button>
+<p style="text-align:center; font-size:16px;">
+<i class="icon ion-chevron-down"></i> OR <i class="icon ion-chevron-down"></i>
+</p>
+-->
+        <form name="signupform" ng-submit="signmeup()" novalidate>
+        
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-person placeholder-icon"></i>Username</span>
+                    <input type="text" name="signupusername" placeholder="Enter A Username" ng-model="register.username" ng-minlength="5" ng-maxlength="15" pattern="[a-zA-Z0-9]+" required>
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-at placeholder-icon"></i>Email</span>
+                    <input type="email" name="signupemail" placeholder="e.g. name123@uni.ac.uk" ng-model="register.email" required>
+                </label>
+                
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-key placeholder-icon"></i>Password</span>
+                  <input type="password" name="signuppassword" placeholder="Min. 6 characters" ng-model="register.pass" ng-minlength="6" required>
+                </label>
+                
+  <div class="item item-divider light-divider">
+   <i class="icon ion-film-marker"></i> Getting to know you
+  </div>
+  
+    <label class="item item-input">
+    <span class="input-label"><i class="icon ion-person-add placeholder-icon"></i>First Name</span>
+    	<input type="text" name="signupfirstname" placeholder="Please enter your name" ng-model="register.name" ng-minlength="2" ng-maxlength="20" required>
+    </label>
+    
+    <label class="item item-input item-select">
+        <div class="input-label">
+        <i class="icon ion-university placeholder-icon"></i>Uni
+        </div>
+        
+        <select name="signupuni" ng-model="register.uni" ng-options="uni.id as uni.name for uni in unilist.product_categories" >
+        </select>
+    </label>
+  
+<label class="item item-input item-select">
+    <div class="input-label">
+     <i class="icon ion-cube placeholder-icon"></i>Study
+    </div>
+    
+   <select name="signupcourse" ng-model="register.course" ng-options="course.id as course.name for course in courselist.course_list" >
+        </select>
+  </label>
+    
+  <li class="item item-checkbox">
+     <label class="checkbox">
+       <input name="signuplocally" type="checkbox" ng-model="register.local" ng-checked="true">
+     </label>
+     I can meet up locally after a sale
+  </li>
+  
+  <div class="padding">
+      <p ng-show="signupform.signupusername.$error.required && !signupform.signupusername.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Username is required</p>
+      <p ng-show="signupform.signupusername.$error.minlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> Username must be at least 5 characters</p>
+      <p ng-show="signupform.signupusername.$error.maxlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> Username must be 15 characters or less</p>
+      <p ng-show="signupform.signupemail.$invalid && !signupform.signupemail.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Email must be a valid university email address</p>
+      
+      <p ng-show="signupform.signuppassword.$error.required && !signupform.signuppassword.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Password is required</p>
+      <p ng-show="signupform.signuppassword.$error.minlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> Password must be at least 6 characters</p>
+      
+      <p ng-show="signupform.signupfirstname.$error.required && !signupform.signupfirstname.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Your first name is required</p>
+      
+      <p ng-show="signupform.signuppassword.$error.required && signupform.signupuni.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Please select your university</p>
+      
+      <p ng-show="signupform.signuppassword.$error.required && signupform.signupcourse.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Please select your course area</p>
+      
+  </div>  
+                    
+            </ion-list>
+          <button class="button ion-forward button-energized button-block noborder" ng-disabled="signupform.$invalid || register.local == false"> Sign Up</button>
+        </form>
+        
+        <a ui-sref="login" class="button button-light ion-chevron-left button-block"> Login</a>
+        <div class="spacer" style="height: 16px;"></div>
+
+            <p class="generaltext">
+                By signing up, you are agreeing to the <a ng-controller="TermsCtrl" ng-click="modal.show()"><strong>Terms of Use</strong></a> and <a ng-controller="PrivacyCtrl" ng-click="modal.show()"><strong>Privacy Policy</strong></a>.
+            </p>
+        <div class="spacer" style="height: 26px;"></div>
+    </ion-content>
+    </div> 
+    
+</ion-view>

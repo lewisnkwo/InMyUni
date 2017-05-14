@@ -1,0 +1,207 @@
+
+      <ion-view title="Edit Your Profile" hide-nav-bar="false">
+      
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+
+        <ion-content class="tabspadding" padding="true">
+       
+<form ng-controller="EditProfileCtrl" name="editprofileform" novalidate>
+
+            <ion-list>
+  <div class="item item-divider light-divider">
+   <i class="icon ion-person"></i> Account Settings
+  </div>
+    <a class="item item-avatar item-logo-editprofile" ng-click="showupload = !showupload">
+      <img ng-src="{{currentusermeta.avatar}}" err-src="img/noimage.png" />
+      <h2 class="profilename"><strong>{{currentusermeta.firstname}}</strong></h2>
+<!--      <p>Registered: <strong>{{currentusermeta.registered  | date:'dd/MM/yyyy @ h:mma'}}</strong></p>-->
+      <p>Tap to Change Avatar</p>
+    </a>
+
+<!-- Avatar Upload -->
+<div ng-show="showupload" class="bookcoverpreview" ng-controller="WhyAPhotoCtrl">
+
+    <div class="button-bar noborder profile-button-bar" style="padding-bottom: 10px;">
+<button class="button button-full noborder icon-left ion-social-facebook button-calm facebookbg" ng-hide="usingfacebook !== true" ng-click="edit_avatar_fb()"> Use Avatar</button>
+<button class="button button-full noborder icon-left ion-social-googleplus button-calm googlebg" ng-hide="usinggoogle !== true" ng-click="edit_avatar_google()"> Use Avatar</button>
+</div>
+
+    <div class="button-bar noborder profile-button-bar">
+<button class="button icon-left ion-camera button-light" ng-click="takePicture()"> Take A Photo</button>
+<button class="button icon-left ion-image button-light" ng-click="selectPicture()"> Select Image</button>
+</div>	
+
+
+<div ng-hide="imgURI !== undefined" class="avatarpreview">
+	<i class="icon ion-person"></i>
+    <h4>Current Avatar Preview:</h4>
+    <img ng-src="{{currentusermeta.avatar}}" err-src="img/noimage.png" class="roundedimg" width="156px" height="156px" />
+    <span ng-hide="$rootScope.usingfacebook !== true || $rootScope.usinggoogle !== true"><h5>Bad Quality? Click on a social button above to use a better resolution avatar.</h5> <!-- Hide if user has not logged in to any network --></span>
+</div>
+
+<div ng-show="imgURI !== undefined" class="cssFadeIn uploadframe">
+			<img ng-src="{{imgURI}}" width="156px" height="156px" err-src="img/noimage.png" />
+    			<button class="button button-block button-energized icon-left ion-upload noborder" ng-click="uploadpic()">Upload</button>
+</div>
+
+
+</div> <!-- END showupload -->
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-person placeholder-icon"></i>Username</span>
+                    <input type="text" name="username" placeholder="" ng-model="currentusermeta.username" disabled>
+                </label>
+
+  </div>
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-at placeholder-icon"></i>Email</span>
+                    <input type="email" name="email" placeholder="" ng-model="currentusermeta.email" ng-change="altered.email = true" disabled>
+                </label>
+                
+  <div class="item item-divider light-divider">
+  <i class="icon ion-lock-combination"></i> Password
+  </div>
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon placeholder-icon" ng-class="platform == 'android' ? 'ion-key' : 'ion-ios-unlocked-outline'"></i>Current</span> 
+                  <input type="password" name="oldpassword" ng-model="currentusermeta.oldpass" placeholder="Enter your current password" ng-minlength="6" ng-change="altered.password_current = true">
+                </label>
+                
+      <p ng-show="!editprofileform.oldpassword.$pristine" class="validation-message-error"><i class="icon ion-alert-circled"></i> Current password is required to change it.</p>
+  
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon placeholder-icon" ng-class="platform == 'android' ? 'ion-android-lock' : 'ion-ios-locked'"></i>New</span>
+                  <input type="password" name="newpassword" ng-model="currentusermeta.newpass" placeholder="Enter a new password" ng-minlength="6" ng-change="altered.password_new = true">
+                </label>
+                
+      <p ng-show="!editprofileform.newpassword.$pristine && editprofileform.newpassword.$error.minlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> New password must be at least 6 characters</p>
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon placeholder-icon" ng-class="platform == 'android' ? 'ion-android-lock' : 'ion-ios-locked'"></i>Confirm</span>
+                  <input type="password" name="confirmpassword" ng-model="currentusermeta.newpass_confirm" placeholder="Re-enter the new password" ng-minlength="6" ng-change="altered.password_confirm = true">
+                </label>
+                
+      <p ng-show="!editprofileform.confirmpassword.$pristine && editprofileform.confirmpassword.$error.minlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> New password must be at least 6 characters</p>
+
+
+  <div class="item item-divider light-divider">
+  <i class="icon ion-person"></i>  Profile Details
+  </div>
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-person-add placeholder-icon"></i>First Name</span>
+                    <input type="text" name="firstname" placeholder="" ng-model="currentusermeta.firstname" ng-minlength="2" ng-maxlength="20" ng-change="altered.first_name = true">
+                </label>
+   
+   <p ng-show="editprofileform.firstname.$error.maxlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> First Name must be 20 characters or less</p>
+     
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-person-add placeholder-icon"></i>Last Name</span>
+                    <input type="text" name="lastname" placeholder="" ng-model="currentusermeta.lastname" ng-minlength="2" ng-maxlength="20" ng-change="altered.last_name = true">
+                </label>
+                
+   <p ng-show="editprofileform.lastname.$error.maxlength" class="validation-message-error"><i class="icon ion-alert-circled"></i> Last Name must be 20 characters or less</p>
+
+  <div class="item item-divider light-divider">
+	<i class="icon ion-woman"></i> <i class="icon ion-man"></i> About Me
+  </div>
+  <div class="item range range-calm">
+    <i class="icon ion-male"></i>
+    <input type="range" name="volume" min="0" max="2" value="1" ng-model="currentusermeta.gender" ng-change="altered.gender = true"> 
+    <i class="icon ion-female"></i>  
+  </div>
+
+                 <label class="item item-input item-select">
+    <div class="input-label">
+     <i class="icon ion-university placeholder-icon"></i>Uni
+    </div>
+    
+        <select ng-model="currentusermeta.uni" ng-options="uni.id as uni.name for uni in unilist.product_categories" ng-change="altered.uni = true">
+        </select>
+    
+  </label>
+
+  
+<label class="item item-input item-select"> 
+    <div class="input-label">
+     <i class="icon ion-cube placeholder-icon"></i>Study
+    </div>
+    
+     <select ng-model="currentusermeta.course" ng-options="course.id as course.name for course in courselist.course_list" ng-change="altered.course = true">
+        </select>
+  </label>
+  
+  <label class="item item-input item-floating-label">
+    <span class="input-label"><i class="icon ion-information-circled placeholder-icon"></i>Bio</span>
+    <textarea placeholder="Enter a few words about yourself/your items (e.g. 'good condition items', 'no returns', 'only will meetup in university' ...)" name="itemdesc" ng-model="currentusermeta.bio" ng-change="altered.bio = true" ng-minlength="1" ng-maxlength="200"></textarea>
+  </label>            
+
+  <div class="item item-divider light-divider">
+	<span style="font-size: 20px; padding-bottom: 10px;"><i class="icon ion-contrast"></i> Interests <i class="icon ion-arrow-right-c"></i></span><br /> Partyer or Snuggler?
+  </div>
+  <div class="item range range-positive">
+    <i class="icon ion-beer"></i>
+    <input type="range" name="volume" min="0" max="100" value="50" ng-model="currentusermeta.interest_partyer" ng-change="altered.interest_partyer = true">
+    <i class="icon ion-pizza"></i> 
+  </div>
+
+<!--  <button class="button button-calm button-small icon-left ion-help-circled noborder" style="margin-top: 10px; margin-bottom: 10px;" ng-click="whyinterest()">
+      What is this?
+    </button> -->        
+  <div class="item item-divider light-divider">
+   <i class="icon ion-link"></i> My Links
+  </div>
+  
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-social-facebook placeholder-icon"></i>Facebook Username</span>
+                    <input type="text" name="facebook" placeholder="Facebook ID" ng-model="currentusermeta.facebook" ng-change="altered.facebook = true" pattern="^[a-z\d\.]{5,}$">
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-social-twitter placeholder-icon"></i>Twitter Username</span>
+                    <input type="text" name="twitter" placeholder="@" ng-model="currentusermeta.twitter" ng-change="altered.twitter = true" pattern="^[A-Za-z0-9_]{1,15}$">
+                </label>
+ 
+<!--                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-social-google placeholder-icon"></i>Google+</span>
+                    <input type="text" name="googleplus" placeholder="Your Google+ URL" ng-model="currentusermeta.google" ng-change="altered.google = true">
+                </label>-->
+
+                <label class="item item-input">
+                    <span class="input-label"><i class="icon ion-link placeholder-icon"></i>Web Profile</span>
+                      <button class="button button-light button-small icon-left ion-clipboard noborder" style="margin-top: 10px; margin-bottom: 10px;" ng-click="copyweblink()">
+                          View/copy your web URL
+                        </button>  
+                </label>
+ 
+<!-- Add phone number in next version-->
+ 
+            </ion-list>
+ 
+ <p class="helptext" style="color: #666"> Tip: If anything isn't working properly, force stop/close the app and start it again.</p>   
+           
+  <button class="button button-assertive button-small icon-left ion-close-round noborder" style="margin-top: 10px; margin-bottom: 10px;" ng-click="promptdelete()">
+     Remove Account
+    </button>  
+     
+          <button class="button button-energized button-block noborder" ng-class="platform == 'android' ? 'ion-android-checkbox-outline' : 'ion-ios-redo'" ng-click="runupdate()" ng-disabled="editprofileform.$invalid"> Update </button>
+        </form>
+        
+        </ion-content>
+        
+      
+    </ion-side-menu-content>
+        <!-- Center content end -->
+    
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+      </ion-view>

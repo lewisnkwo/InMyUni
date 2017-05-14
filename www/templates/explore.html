@@ -1,0 +1,80 @@
+<ion-view title="Explore" hide-nav-bar="true">
+      
+   <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+ 
+        <ion-pane ng-controller="CardsCtrl" class="panebg">
+ 
+      <ion-header-bar class="bar-light noborder">
+        <img ng-if="platform == 'android'" src="img/App-Nav-Logo-Dark.png" width="75px" height="38px" style="text-align: left !important; margin-top: -5px; margin-left: 0px; margin-right: auto;" />
+         <img ng-if="platform == 'ios'" src="img/App-Nav-Logo-Dark.png" width="69px" height="38px" />
+        <button class="button button-icon icon header-refresh" ng-class="platform == 'android' ? 'ion-android-refresh' : 'ion-ios-refresh'" ng-controller="PopCardExploreCtrl" ng-click="popover.show($event)"></button>
+     	<button class="button button-icon icon ion-grid" style="float:right" ui-sref="exploregrid"> OR <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i></button>
+      </ion-header-bar>
+      
+    <swipe-cards>
+  
+      <swipe-card on-card-swipe="cardSwiped()" id="start-card">
+        Swipe down to explore items
+        <i class="icon" ng-class="platform == 'android' ? 'ion-android-hand' : 'ion-ios-pricetags'"></i>
+      </swipe-card>
+      <swipe-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-card-swipe="cardSwiped($index)">
+        <div ng-controller="CardCtrl">
+          <div class="title">
+            <a class="nounderline" ng-click="goAway()" ui-sref="itemsingle({ postID: card.pid })">{{card.title}}</a>
+          </div>
+          <div class="uni">
+            <i class="icon ion-location"></i> Student of <span class="bolden">{{card.uni}}</span>
+          </div>
+          <div class="image">
+            <img ng-src="{{ card.img }}" err-src="img/noimage.png" alt="Loading...">
+
+<a class="nounderline" ui-sref="profile({ profileID: card.author_id })">
+    <div class="explore-author">
+    	<i class="icon ion-pricetag"></i> Sold by: <span class="bolden">{{card.author}}</span>
+    </div> 
+</a>
+
+<div class="explore-price" ng-show="card.status == 'available'">
+<span class="bolden">£{{card.price}}</span>
+</div>  
+
+<div class="explore-status" ng-show="card.status == 'sold'">
+<span class="bolden"><i class="icon ion-beer"></i> sold</span>
+</div>
+          
+          </div>
+          <div class="button-bar">
+            <a nav-direction="swap" ng-show="card.status == 'available'" class="button button-clear button-calm" style="font-size: 34px" ui-sref="itemsingle({ postID: card.pid })"><i class="icon ion-eye"></i> / <i class="icon" ng-class="platform == 'android' ? 'ion-android-cart' : 'ion-ios-cart'"></i> </a>
+            <a nav-direction="swap" ng-show="card.status == 'sold'" class="button button-clear button-calm" style="font-size: 34px" ui-sref="itemsingle({ postID: card.pid })"><i class="icon ion-eye"></i></a>
+            <button style="font-size: 34px" class="button button-clear button-energized" ng-controller="ShareGeneralCtrl" ng-click="popover.show($event)" ng-class="platform == 'android' ? 'ion-share' : 'ion-ios-redo-outline'"><i class="icon"></i> </button>
+            <button class="button button-clear button-energized">Next <i class="icon" ng-class="platform == 'android' ? 'ion-android-hand' : 'ion-ios-arrow-thin-down'"></i></button>            
+          </div>
+        </div>
+      </swipe-card>
+    </swipe-cards>
+
+        
+  </ion-pane>
+  
+    </ion-side-menu-content>
+        <!-- Center content end -->
+    
+
+    <!-- Left menu -->
+    <ion-side-menu side="left" expose-aside-when="large">
+    <div ng-include="'menus/menu-general.html'"></div>
+    </ion-side-menu>
+    
+<!--  <ion-side-menu side="right" ng-controller="ExploreCtrl">
+    <div ng-include="'menus/menu-explore.html'"></div>
+  </ion-side-menu>-->
+
+  </ion-side-menus>
+
+      </ion-view>
+
+
+      

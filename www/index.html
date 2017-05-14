@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/popups.js"></script>
+    <script src="js/messageCtrls.js"></script>
+    <script src="js/shareCtrls.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/payment.js"></script>
+    <script src="js/ionic.swipecards.js"></script> 
+    <script src="lib/oauth-signature/dist/oauth-signature.js"></script>
+    <script src="lib/ngstorage/ngStorage.min.js"></script>
+	<script src="lib/angular-permission/dist/angular-permission.js"></script>
+	<script src="lib/he/he.js"></script>
+	<script src="js/ng-cordova-oauth.min.js"></script>
+	<script src="js/sha1.js"></script>
+ 	<script src="js/angular-stripe-checkout.js"></script>
+ 	<script src="lib/angular-css-injector/angular-css-injector.js"></script>
+  </head>
+  
+<body ng-app="todo">
+
+<div ng-controller="AuthCtrl">
+    
+    <div ng-if="platform_android == true">
+        <ion-nav-bar class="bar-energized noborder">
+        <ion-nav-back-button></ion-nav-back-button>
+
+               <ion-nav-buttons side="secondary">
+            <button class="button-icon icon ion-android-search" style="color: #fff" ng-controller="PopCardSearchCtrl" ng-click="popover.show($event)" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos;">
+            </button>
+            <button class="button-icon icon ion-android-menu" style="color: #fff" ng-controller="TheSideMenuCtrl" ng-click="OpenMenu()" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos;">
+                  </button>
+               </ion-nav-buttons>
+               
+        </ion-nav-bar>
+        <ion-nav-view></ion-nav-view>
+    </div>
+    
+    <div ng-if="platform_ios == true">
+        <ion-nav-bar class="bar-energized noborder">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+        
+               <ion-nav-buttons side="secondary">
+
+            <button class="button-icon icon ion-ios-search" style="color: #fff" ng-controller="PopCardSearchCtrl" ng-click="popover.show($event)" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos;">
+            </button>
+            <button class="button-icon icon ion-ios-more-outline" style="color: #fff" ng-controller="TheSideMenuCtrl" ng-click="OpenMenu()" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos;">
+                  </button>
+               </ion-nav-buttons>
+               
+        </ion-nav-bar>
+        <ion-nav-view></ion-nav-view>
+    </div>
+
+      
+    <div ng-if="platform_android == true">  
+        <div class="tabs tabs-icon-top tabs-striped tabs-color-energized" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos; || uiRouterState.current.name == &apos;dashboard&apos; || uiRouterState.current.name == &apos;payments&apos; || uiRouterState.current.name == &apos;account&apos;">
+          <a class="tab-item" ui-sref="explore" ui-sref-active="active">
+            <i class="icon ion-eye"></i>
+            Explore
+          </a>
+          <a class="tab-item" ui-sref="myitems" ui-sref-active="active">
+            <i class="icon ion-pricetags"></i>
+            My Items
+          </a>
+          <a class="tab-item sell-tab-button" ui-sref="sell" ui-sref-active="active">
+            <i class="icon ion-camera"></i>
+            Sell
+          </a>														
+          <a class="tab-item" ui-sref="profile({ profileID: currentusermeta.id })" ui-sref-active="active">
+            <i class="icon ion-android-person"></i>
+            Profile
+          </a>
+          <a class="tab-item" ui-sref="dashboard({ profileID: currentusermeta.id })" ui-sref-active="active">
+            <i class="icon ion-university"></i>
+            My Inmyuni
+          </a>
+        </div>
+    </div>
+  	
+    <div ng-if="platform_ios == true">
+        <div class="tabs tabs-color-energized tabs-icon-top" ng-hide="uiRouterState.current.name == &apos;login&apos; || uiRouterState.current.name == &apos;signup&apos; || uiRouterState.current.name == &apos;forgotpassword&apos; || uiRouterState.current.name == &apos;changepassword&apos; || uiRouterState.current.name == &apos;loggingin&apos;">
+          <a class="tab-item" ui-sref="explore" ui-sref-active="active">
+            <i class="icon ion-ios-eye"></i>
+            Explore
+          </a>
+          <a class="tab-item" ui-sref="myitems" ui-sref-active="active">
+            <i class="icon ion-ios-pricetags"></i>
+            My Items
+          </a>
+          <a class="tab-item sell-tab-button" ui-sref="sell" ui-sref-active="active">
+            <i class="icon ion-ios-camera"></i>
+            Sell
+          </a>														
+          <a class="tab-item" ui-sref="profile({ profileID: currentusermeta.id })" ui-sref-active="active">
+            <i class="icon ion-ios-person"></i>
+            Profile
+          </a>
+          <a class="tab-item" ui-sref="dashboard({ profileID: currentusermeta.id })" ui-sref-active="active">
+            <i class="icon ion-university"></i>
+            My Inmyuni
+          </a>
+        </div>
+    </div>
+     
+      
+</div>
+</body>
+
+</html>

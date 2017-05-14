@@ -1,0 +1,68 @@
+<ion-header-bar class="bar-energized">
+        <h1 class="title">Navigate</h1>
+      </ion-header-bar>
+      
+<ion-content class="tabspadding">
+
+<div class="list menu-left" ng-controller="MenuCtrl">
+
+    <a class="item item-avatar item-logo item-left" ui-sref="editprofile">
+      <img ng-src="{{currentusermeta.avatar !== undefined ? currentusermeta.avatar : 'img/default_avatar_male.jpg'}}" err-src="img/noimage.png">
+      <h2>Hello <strong>{{currentusermeta.displayname !== undefined ? currentusermeta.displayname : 'User'}}!</strong></h2>
+      <p><i class="icon ion-android-options"></i> Edit Profile</p>
+    </a>
+    
+  <a nav-clear class="item item-icon-left item-left" ui-sref="dashboard({ profileID: currentusermeta.id })">
+    <i class="icon ion-university"></i>
+    Dashboard
+  </a>  
+    
+  <a nav-clear class="item item-icon-left item-left" ui-sref="search">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i>
+    Search Inmyuni
+  </a>
+  
+   <a nav-clear class="item item-icon-left item-left" ui-sref="explore">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-hand' : 'ion-ios-pricetags'"></i>
+    Explore Items
+  </a> 
+    
+  <a nav-clear class="item item-icon-left item-left" ui-sref="exploregrid">
+    <i class="icon ion-grid"></i>
+    Explore Items
+  </a>
+  
+   <a nav-clear class="item item-icon-left item-left" ui-sref="myitems">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-hand' : 'ion-ios-pricetags-outline'"></i>
+   	My Items <span class="badge badge-assertive" ng-hide="!itemcount">{{itemcount}}</span> 
+  </a> 
+  
+  <a nav-clear class="item item-icon-left item-left" ui-sref="sell">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-camera' : 'ion-ios-camera'"></i>
+    Sell
+  </a> 
+  
+  <a nav-clear class="item item-icon-left item-left" ui-sref="profile({ profileID: currentusermeta.id })">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-person' : 'ion-ios-person'"></i>
+    My Profile
+  </a> 
+
+  <a nav-clear class="item item-icon-left item-left" ui-sref="about">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-help-circled' : 'ion-ios-information-outline'"></i>
+    Legal/About Inmyuni
+  </a> 
+  
+  <a nav-clear class="item item-icon-left item-left" ui-sref="editprofile">
+    <i class="icon" ng-class="platform == 'android' ? 'ion-android-settings' : 'ion-ios-toggle'"></i>
+   Profile Settings
+  </a> 
+  
+  <a nav-clear class="item item-icon-left item-left" ng-click="loggingout()">
+    <i class="icon ion-android-exit"></i>
+    Logout
+  </a> 
+
+</div>
+
+
+</ion-content>

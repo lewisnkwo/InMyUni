@@ -1,0 +1,41 @@
+
+<ion-view title="Login" hide-nav-bar="true">
+<ion-content padding="true" class="login-bg">
+<div class="spacer" style="height: 40px;"></div>
+<img src="img/loginlogo.png" class="loginlogo" />
+        <form name="loginform">
+            <ion-list>
+                <label class="item item-input item-login glassbar">
+                    <span class="input-label"><i class="icon ion-person placeholder-icon"></i> Username</span>
+                    <input type="text" name="loginusername" placeholder="" ng-model="credentials.username" ng-minlength="4" required>
+                </label>
+                <label class="item item-input item-login glassbar">
+                    <span class="input-label"><i class="icon ion-key placeholder-icon"></i> Password</span>
+                    <input type="password" name="loginpassword" placeholder="" ng-model="credentials.password" ng-minlength="4" required>
+                </label>
+			 </ion-list>
+   
+            <div class="spacer" style="height: 20px;"></div> 
+            
+            <a ng-disabled="loginform.$invalid" ng-click="submitted = true; authuser(credentials)" class="button ion-university button-energized button-block noborder norounded"> Let's get started!</a>
+            
+<!--<button class="button button-primary button-block " ng-click="checkForUpdates()">
+  Check for updates
+</button>-->
+
+<button class="button button-stable button-block button-pulse" ng-if="hasUpdate" ng-click="doUpdate()">
+  Download update
+</button>
+
+<!--    <div class="button-bar social-bar noborder profile-button-bar norounded" style="padding-bottom: 10px;">
+<button class="button button-full noborder icon-left ion-android-exit button-calm facebookbg norounded" ng-click="loginfb()"><i class="icon ion-social-facebook"></i></button>
+ <button class="button button-full noborder icon-left ion-social-googleplus button-calm googlebg" ng-click="logingoogle()"><i class="icon ion-android-exit"></i></button>
+<button class="button button-full noborder icon-left ion-android-exit button-calm twitterbg norounded" ng-click="logintwitter()"><i class="icon ion-social-twitter"></i></button>
+</div>-->
+
+            <a ui-sref="signup" class="button button-dark button-block noborder norounded" ng-class="platform == 'android' ? 'ion-android-person-add' : 'ion-ios-personadd'"> Create Account</a>
+            <a ui-sref="forgotpassword" class="button ion-locked button-light button-clear button-block norounded"> Forgot your password?</a>
+          
+        </form>
+    </ion-content>
+</ion-view>

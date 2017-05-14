@@ -1,0 +1,27 @@
+      <ion-popover-view>
+        <ion-content style="height: auto" ng-controller="SearchCtrl">
+ <h1 style="padding-left: 10px;">Search </h1> <img src="img/search-icon.png" width="150px" height="44px" style="margin-top: -10px; text-align: left !important;" />
+          <div class="list">
+ <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Enter a search term" ng-model="searchterm.keyword">
+  </label>
+  <button class="button button-full button-energized noborder" ng-click="searchitem(); ifsearchstate()">
+  Search <i class="icon" ng-class="platform == 'android' ? 'ion-android-search' : 'ion-ios-search'"></i>
+</button>
+
+            <a class="item" href="">
+<span style="text-align:center">
+<i class="icon ion-chevron-down"></i> OR <i class="icon ion-chevron-down"></i>
+</span>
+            </a> 
+ <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Enter a book name" ng-model="searchterm.keyword">
+  </label>
+  <button class="button button-full button-energized noborder" ng-click="searchitem(); ifsearchstate()">
+  Search Books <i class="icon" ng-class="platform == 'android' ? 'ion-android-bookmark' : 'ion-ios-book-outline'"></i>
+</button>
+          </div>
+        </ion-content>
+      </ion-popover-view>
